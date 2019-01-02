@@ -9,6 +9,8 @@
         <title>Album <h:outputText value="#{viewAlbum.current.title}"/></title>
     </h:head>
     <h:body>
+        <h:link value="Liste des albums" outcome="/user/list-albums.xhtml"/>
+        &nbsp;<h:link value="Modifier" outcome="/user/update-album.xhtml?albumId=#{viewAlbum.current.id}"/>
         
         <h1>Album <h:outputText value="#{viewAlbum.current.title}"/></h1>
         

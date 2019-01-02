@@ -7,12 +7,9 @@ package fr.uga.miashs.sempic.backingbeans;
 
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
-import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.qualifiers.SelectedAlbum;
-import fr.uga.miashs.sempic.services.PhotoFacade;
+import fr.uga.miashs.sempic.services.AlbumFacade;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -21,31 +18,18 @@ import javax.inject.Named;
 
 /**
  *
- * @author Jerome David <jerome.david@univ-grenoble-alpes.fr>
+ * @author loicp
  */
 @Named
 @ViewScoped
-public class ViewAlbum implements Serializable {
+public class UpdateAlbum implements Serializable {
     
     @Inject
     @SelectedAlbum
     private Album current;
     
     @Inject
-    private PhotoFacade service;
-    
-    @Inject 
-    private PhotoController createPhoto;
-    
-    
-    public List<Photo> getPhotos() {
-        try {
-            return service.findAll(current);
-        } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cannot retrieve the photos",ex.getMessage()));
-        }
-        return Collections.emptyList();
-    }
+    private AlbumFacade service;
 
     public Album getCurrent() {
         return current;
@@ -55,9 +39,14 @@ public class ViewAlbum implements Serializable {
         this.current = current;
     }
     
-
-    public PhotoController getCreatePhoto() {
-        return createPhoto;
+    public String update() {
+        try {
+            service.update(current);
+        } catch (SempicModelException ex) {
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            return "failure";
+        }
+        
+        return "success";
     }
-    
 }

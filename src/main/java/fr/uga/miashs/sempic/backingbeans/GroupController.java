@@ -5,18 +5,26 @@
  */
 package fr.uga.miashs.sempic.backingbeans;
 
+import fr.uga.miashs.sempic.services.GroupFacade;
 import fr.uga.miashs.sempic.SempicModelException;
-import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.qualifiers.SelectedUser;
+import fr.uga.miashs.sempic.services.SempicUserFacade;
+import fr.uga.miashs.sempic.entities.SempicGroup;
 import fr.uga.miashs.sempic.entities.SempicUser;
-import fr.uga.miashs.sempic.services.AlbumFacade;
 import java.io.Serializable;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 /**
  *
@@ -24,33 +32,41 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class CreateAlbum implements Serializable {
+public class GroupController implements Serializable {
     
     @Inject
     @SelectedUser
     private SempicUser selectedUser;
     
-    private Album current;
+    private SempicGroup current;
     
     @Inject
-    private AlbumFacade service;
+    private GroupFacade service;
     
-    public CreateAlbum() {
+    @Inject
+    private SempicUserFacade userService;
+
+    
+    public GroupController() {
         
     }
     
     @PostConstruct
     public void init() {
-        current=new Album();
+        current=new SempicGroup();
         current.setOwner(selectedUser);
     }
 
+    
+    public List<SempicUser> getUsers() {
+        return userService.findAll();
+    }
 
-    public Album getCurrent() {
+    public SempicGroup getCurrent() {
         return current;
     }
 
-    public void setCurrent(Album current) {
+    public void setCurrent(SempicGroup current) {
         this.current = current;
     }
     

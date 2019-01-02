@@ -33,7 +33,7 @@ import javax.servlet.http.Part;
  */
 @Named
 @ViewScoped
-public class CreatePhoto implements Serializable {
+public class PhotoController implements Serializable {
     
     @Inject
     @SelectedAlbum
@@ -47,7 +47,7 @@ public class CreatePhoto implements Serializable {
     @Inject
     private PhotoFacade service;
     
-    public CreatePhoto() {
+    public PhotoController() {
         
     }
     

@@ -17,6 +17,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,7 +31,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Named
 @ViewScoped
-public class CreateUser implements Serializable {
+public class UserController implements Serializable {
     
     private SempicUser current;
     
@@ -38,9 +40,11 @@ public class CreateUser implements Serializable {
     
     @Inject
     private transient Pbkdf2PasswordHash hashAlgo;
+    
+    private DataModel<SempicUser> dataModel;
 
     
-    public CreateUser() {
+    public UserController() {
     }
     
     @PostConstruct
@@ -86,5 +90,12 @@ public class CreateUser implements Serializable {
         }
         
         return "success";
+    }
+    
+    public DataModel<SempicUser> getDataModel() {
+        if (dataModel == null) {
+            dataModel = new ListDataModel<>(service.findAll());
+        }
+        return dataModel;
     }
 }
