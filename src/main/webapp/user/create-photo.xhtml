@@ -13,8 +13,8 @@
         <h:form enctype="multipart/form-data">
             <h:panelGrid columns = "3">
                 <label for="file">Fichier: </label>
-                <h:inputFile id="file" value="#{photoController.file}"/>
-                <h:message for="file"/>
+                <h:inputFile id="files" value="#{photoController.files}"/>
+                <h:message for="files"/>
             </h:panelGrid>
             <h:commandButton value="Créer" action="#{photoController.create()}"/>
             

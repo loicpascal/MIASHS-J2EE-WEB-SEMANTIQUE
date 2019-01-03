@@ -11,10 +11,10 @@
         <h:form>
             <h:panelGrid columns = "3">
                 <label for="title">Titre</label>
-                <h:inputText id="title" h5:placeholder="My Album" value="#{createAlbum.current.title}"/>
+                <h:inputText id="title" h5:placeholder="My Album" value="#{albumController.current.title}"/>
                 <h:message for="title"/>
             </h:panelGrid>
-            <h:commandButton value="Créer" action="#{createAlbum.create()}"/>
+            <h:commandButton value="Créer" action="#{albumController.create()}"/>
             
             <h:messages globalOnly="true"/>
 

@@ -39,11 +39,8 @@ public class PhotoController implements Serializable {
     @SelectedAlbum
     private Album selectedAlbum;
     
-    
     private List<Part> files;
 
-    
-    
     @Inject
     private PhotoFacade service;
     
@@ -55,8 +52,6 @@ public class PhotoController implements Serializable {
     public void init() {
     }
 
-
-    
     public List<Part> getFiles() {
         return files;
     }
