@@ -8,8 +8,9 @@
     <h:head>
         <title>Création d'une photo</title>
     </h:head>
-    
     <h:body>
+        <h1>Création d'une photo</h1>
+        
         <h:form enctype="multipart/form-data">
             <h:panelGrid columns = "3">
                 <label for="file">Fichier: </label>
@@ -19,7 +20,6 @@
             <h:commandButton value="Créer" action="#{photoController.create()}"/>
             
             <h:messages globalOnly="true"/>
-
         </h:form>
     </h:body>
 </html>

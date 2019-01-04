@@ -1,33 +1,50 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
-    <h:head>
-        <title>Album <h:outputText value="#{viewAlbum.current.title}"/></title>
-    </h:head>
-    <h:body>
-        <h:link value="Liste des albums" outcome="/user/list-albums.xhtml"/>
-        &nbsp;<h:link value="Modifier" outcome="/user/update-album.xhtml?albumId=#{viewAlbum.current.id}"/>
-        
-        <h1>Album <h:outputText value="#{viewAlbum.current.title}"/></h1>
-        
-        <h:form id="addPhoto" enctype="multipart/form-data">
-            <ui:repeat id="listPhotos" value="#{viewAlbum.photos}" var="photo">
-                <a href="#{application.contextPath}/webapi/picture/#{photo.path}" type="text/html">
-                    <h:graphicImage value="/webapi/picture/#{photo.path}?width=200"/>
-                </a>
-            </ui:repeat>
-            <p>
-                <h:inputFile p:multiple="multiple" id="photoUpload" p:type="file"  value="#{viewAlbum.createPhoto.files}" p:accept="image/*">
-                    <f:ajax listener="#{viewAlbum.createPhoto.create()}" render="@form"/> 
-                </h:inputFile>
-                <h:message for="photoUpload" />
-            </p>
-            
-        </h:form>
-    </h:body>
-</html>
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <ui:composition template="/layout.xhtml">
+        <ui:define name="content">
 
+            <h1>
+                Album "<h:outputText value="#{viewAlbum.current.title}"/>"
+                <h:link value="Modifier" outcome="/user/update-album.xhtml?albumId=#{viewAlbum.current.id}" class="btn btn-secondary btn-sm"/>
+            </h1>
+
+            <h:form id="addPhoto" enctype="multipart/form-data" class="was-validated">
+                <div class="custom-file">
+                    <h:inputFile p:multiple="multiple" id="photoUpload" p:type="file" value="#{viewAlbum.createPhoto.files}" p:accept="image/*" class="custom-file-input">
+                        <f:ajax listener="#{viewAlbum.createPhoto.create()}" render="@form"/> 
+                    </h:inputFile>
+                    <label class="custom-file-label" for="photoUpload">Ajoutez une ou plusieurs photos</label>
+                </div>
+                <h:message for="photoUpload" />
+            </h:form>
+            
+            <br/><br/>
+            
+            <div class="row">
+                <ui:repeat id="listPhotos" value="#{viewAlbum.photos}" var="photo">
+                    
+                        <div class="col-sm-3 mb-4">
+                            <div class="card">
+                                <h:graphicImage value="/webapi/picture/#{photo.path}?width=200" class="card-img-top"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">Titre</h5>
+                                    <h:form>
+                                        <h:link value="Modifier" outcome="/user/update-photo.xhtml?photoId=#{photo.id}" class="btn btn-secondary btn-sm"/>
+                                        <h:outputText value="&#160;" /><h:commandLink action="#{photoController.delete(photo.id)}" value="Supprimer" class="btn btn-secondary btn-sm"/>
+                                    </h:form>
+                                </div>
+                             </div>
+                        </div>
+                </ui:repeat>
+            </div>
+            
+        </ui:define>
+    </ui:composition>
+</html>

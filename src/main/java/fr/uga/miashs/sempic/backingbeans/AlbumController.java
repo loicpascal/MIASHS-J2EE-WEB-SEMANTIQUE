@@ -9,6 +9,7 @@ import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.qualifiers.SelectedUser;
 import fr.uga.miashs.sempic.entities.SempicUser;
+import fr.uga.miashs.sempic.entities.SempicUserType;
 import fr.uga.miashs.sempic.services.AlbumFacade;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -49,7 +50,6 @@ public class AlbumController implements Serializable {
         current.setOwner(selectedUser);
     }
 
-
     public Album getCurrent() {
         return current;
     }
@@ -59,8 +59,6 @@ public class AlbumController implements Serializable {
     }
     
     public String create() {
-        System.out.println(current);
-        
         try {
             service.create(current);
         } catch (SempicModelException ex) {
@@ -104,7 +102,12 @@ public class AlbumController implements Serializable {
     
     public DataModel<Album> getDataModel() {
         if (dataModel == null) {
-            dataModel = new ListDataModel<>(service.findAll());
+            if (selectedUser.getUserType() == SempicUserType.ADMIN) {
+                dataModel = new ListDataModel<>(service.findAll());
+            } else {
+                // Si l'utilisateur n'est pas ADMIN, on affiche seulement ses albums
+                dataModel = new ListDataModel<>(service.findAlbumsOf(selectedUser));
+            }
         }
         return dataModel;
     }

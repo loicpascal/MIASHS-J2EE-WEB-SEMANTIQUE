@@ -40,6 +40,8 @@ public class PhotoController implements Serializable {
     private Album selectedAlbum;
     
     private List<Part> files;
+    
+    private Photo current;
 
     @Inject
     private PhotoFacade service;
@@ -51,6 +53,14 @@ public class PhotoController implements Serializable {
     @PostConstruct
     public void init() {
     }
+    
+    public Photo getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Photo current) {
+        this.current = current;
+    }
 
     public List<Part> getFiles() {
         return files;
@@ -58,7 +68,6 @@ public class PhotoController implements Serializable {
 
     public void setFiles(List<Part> files) {
         this.files = files;
-        //current.setFilename("");//file.getName());
     }
     
     public String create() {
@@ -89,5 +98,36 @@ public class PhotoController implements Serializable {
             init();
             return "success";
         }
+    }
+    
+    /**
+     * Suppression de la photo courante
+     * @return 
+     */
+    public String delete() {
+        try {
+            service.delete(current);
+        } catch (SempicModelException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            return "failure";
+        }
+        
+        return "success";
+    }
+    
+    /**
+     * Suppression d'une photo par son identifiant
+     * @param id
+     * @return 
+     */
+    public String delete(long id) {
+        try {
+            service.deleteId(id);
+        } catch (SempicModelException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            return "failure";
+        }
+        
+        return "success";
     }
 }

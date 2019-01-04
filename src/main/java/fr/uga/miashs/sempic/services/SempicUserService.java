@@ -21,7 +21,6 @@ import javax.inject.Singleton;
  * @author Jerome David <jerome.david@univ-grenoble-alpes.fr>
  */
 @Singleton
-//@Stateless
 public class SempicUserService {
 
     private Map<String, SempicUser> users;
