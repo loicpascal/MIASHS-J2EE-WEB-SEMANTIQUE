@@ -8,17 +8,13 @@ import fr.uga.miashs.sempic.SempicException;
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -60,12 +56,12 @@ public class PhotoFacade extends AbstractJpaFacade<Long,Photo> {
 
     @Override
     public void delete(Photo p) throws SempicModelException {
-            super.delete(p);
+        super.delete(p);
+           
         try {
             storage.deletePicture(Paths.get(String.valueOf(p.getAlbum().getId()), String.valueOf(p.getId())));
         } catch (SempicException ex) {
             Logger.getLogger(PhotoFacade.class.getName()).log(Level.INFO, null, ex);
         }
-
     }
 }

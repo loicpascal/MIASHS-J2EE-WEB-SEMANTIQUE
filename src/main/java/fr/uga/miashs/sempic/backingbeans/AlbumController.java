@@ -7,11 +7,17 @@ package fr.uga.miashs.sempic.backingbeans;
 
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
+import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.qualifiers.SelectedUser;
 import fr.uga.miashs.sempic.entities.SempicUser;
 import fr.uga.miashs.sempic.entities.SempicUserType;
 import fr.uga.miashs.sempic.services.AlbumFacade;
+import fr.uga.miashs.sempic.services.PhotoFacade;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -36,18 +42,45 @@ public class AlbumController implements Serializable {
     private Album current;
     
     @Inject
-    private AlbumFacade service;
+    private AlbumFacade albumService;
+    
+    @Inject
+    private PhotoFacade photoService;
     
     private DataModel<Album> dataModel;
     
-    public AlbumController() {
-        
-    }
+    public AlbumController() {}
     
     @PostConstruct
     public void init() {
         current=new Album();
         current.setOwner(selectedUser);
+    }
+    
+    /**
+     * Renvoie la liste des photos de l'album courant
+     * @return 
+     */
+    public List<Photo> getPhotos() {
+        try {
+            return photoService.findAll(current);
+        } catch (SempicModelException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cannot retrieve the photos",ex.getMessage()));
+        }
+        return Collections.emptyList();
+    }
+    
+    /**
+     * Renvoie la liste des photos de l'album passé en paramètre
+     * @return 
+     */
+    public List<Photo> getPhotos(Album album) {
+        try {
+            return photoService.findAll(album);
+        } catch (SempicModelException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cannot retrieve the photos",ex.getMessage()));
+        }
+        return Collections.emptyList();
     }
 
     public Album getCurrent() {
@@ -60,9 +93,10 @@ public class AlbumController implements Serializable {
     
     public String create() {
         try {
-            service.create(current);
+            albumService.create(current);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Album créé avec succès."));
         } catch (SempicModelException ex) {
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
         }
         
@@ -75,7 +109,16 @@ public class AlbumController implements Serializable {
      */
     public String delete() {
         try {
-            service.delete(current);
+            List<Photo> photos = this.getPhotos();
+            System.out.println(photos);
+            Iterator li = photos.listIterator();
+
+            while(li.hasNext()) {
+                Photo photo = (Photo) li.next();
+                photoService.delete(photo);
+            }
+      
+            albumService.delete(current);
         } catch (SempicModelException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
@@ -90,8 +133,22 @@ public class AlbumController implements Serializable {
      * @return 
      */
     public String delete(long id) {
+        Album album = albumService.read(id);
+        this.setCurrent(album);
+        System.out.println(current.getId());
         try {
-            service.deleteId(id);
+            List<Photo> photos = getPhotos(album);
+            System.out.println(photos);
+            Iterator li = photos.listIterator();
+
+            while(li.hasNext()) {
+                Photo photo = (Photo) li.next();
+                System.out.println(photo);
+                System.out.println("photo to delete : " + photo.getId());
+                photoService.delete(photo);
+            }
+            
+            albumService.delete(album);
         } catch (SempicModelException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
@@ -103,10 +160,10 @@ public class AlbumController implements Serializable {
     public DataModel<Album> getDataModel() {
         if (dataModel == null) {
             if (selectedUser.getUserType() == SempicUserType.ADMIN) {
-                dataModel = new ListDataModel<>(service.findAll());
+                dataModel = new ListDataModel<>(albumService.findAll());
             } else {
                 // Si l'utilisateur n'est pas ADMIN, on affiche seulement ses albums
-                dataModel = new ListDataModel<>(service.findAlbumsOf(selectedUser));
+                dataModel = new ListDataModel<>(albumService.findAlbumsOf(selectedUser));
             }
         }
         return dataModel;

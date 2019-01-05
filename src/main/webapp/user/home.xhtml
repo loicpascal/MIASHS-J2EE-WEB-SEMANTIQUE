@@ -1,16 +1,29 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Accueil</title>
-    </h:head>
-    <h:body>
-        <h1>Bienvenue</h1>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <ui:composition template="/layout.xhtml">
+        <ui:define name="title">Accueil</ui:define>
         
-        <p>
-            Hello <h:outputText value="#{sessionTools.connectedUser.firstname}"/>&nbsp;<h:outputText value="#{sessionTools.connectedUser.lastname}"/>
-        </p>
-    </h:body>
+        <ui:define name="content">
+            
+        <h1>Bienvenue <h:outputText value="#{sessionTools.connectedUser.firstname}"/><h:outputText value="&#160;"/><h:outputText value="#{sessionTools.connectedUser.lastname}"/></h1>
+        
+        <ul>
+            <c:if test="#{sessionTools.isAdmin()}">
+                <li>
+                    <h:link value="Liste de utilisateurs" outcome="/admin/list-users.xhtml"/>
+                </li>
+                <li>
+                    <h:link value="Liste des albums" outcome="/user/list-albums.xhtml"/>
+                </li>
+            </c:if>
+        </ul>
+        
+        </ui:define>
+    </ui:composition>
 </html>
 

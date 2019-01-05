@@ -62,13 +62,12 @@ public class SempicUser implements Serializable {
     @NotBlank(message="Un prénom doit être donné")
     private String firstname;
     
-    @Email
+    @Email( message = "Veuillez saisir un email valide" )
     @NotBlank(message="Une adresse mail doit être donnée")
     private String email;
     
     //@NotBlank(message="Un mot de passe doit être donné")
     private String passwordHash;
-    
     
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE)
     private Set<SempicGroup> groups;

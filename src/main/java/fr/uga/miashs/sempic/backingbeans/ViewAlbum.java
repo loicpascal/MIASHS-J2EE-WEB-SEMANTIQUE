@@ -37,7 +37,6 @@ public class ViewAlbum implements Serializable {
     @Inject 
     private PhotoController createPhoto;
     
-    
     public List<Photo> getPhotos() {
         try {
             return service.findAll(current);
