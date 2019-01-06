@@ -2,17 +2,36 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <ui:composition template="/layout.xhtml">
         <ui:define name="title">Photo n°<h:outputText value="#{updatePhoto.current.id}"/></ui:define>
         
         <ui:define name="content">
-            <h:link value="Retour à l'album" outcome="/user/view-album.xhtml?albumId=#{updatePhoto.current.album.id}" class="btn btn-link"/>
+            <h:link value="&lt; Retour à l'album" outcome="/user/view-album.xhtml?albumId=#{updatePhoto.current.album.id}" class="btn btn-link"/>
             
-            <h1>Photo n°<h:outputText value="#{updatePhoto.current.id}"/></h1>
+            <h1 class="display-4">Photo n°<h:outputText value="#{updatePhoto.current.id}"/></h1>
 
             <h:graphicImage value="/webapi/picture/#{updatePhoto.current.path}?width=200"/>
+            
+            <br/><br/>
+            <h:form>
+                <div class="form-group">
+                    <label for="title">Titre</label>
+                    <h:inputText id="title" class="form-control"/>
+                    <small><h:message for="title" class="form-text text-muted"/></small>
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <h:selectOneMenu id="type" value="#{searchPhoto.type}" class="form-control"> 
+                        <f:selectItem itemValue="1" itemLabel="Animal" />
+                        <f:selectItem itemValue="2" itemLabel="Plante" />
+                        <f:selectItem itemValue="3" itemLabel="Personne" />
+                    </h:selectOneMenu>
+                </div>
+                <h:commandButton value="Modifier" action="#{updatePhoto.update()}" class="btn btn-primary"/>
+            </h:form>
             
         </ui:define>
     </ui:composition>

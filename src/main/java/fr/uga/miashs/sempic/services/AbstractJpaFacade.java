@@ -7,7 +7,6 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,7 +19,7 @@ import javax.persistence.criteria.Root;
  */
 public abstract class AbstractJpaFacade<K, T> {
 
-    @PersistenceContext(unitName="SempicPU"/*,type = PersistenceContextType.EXTENDED*/)
+    @PersistenceContext(unitName="SempicPU")
     private EntityManager em;
         
     private Class<T> entityClass;
@@ -44,6 +43,7 @@ public abstract class AbstractJpaFacade<K, T> {
             t = t.getCause();
         }   
     }
+    
     @AroundInvoke
     private Object catchDatabaseException(InvocationContext ctx) throws Exception {
         try {

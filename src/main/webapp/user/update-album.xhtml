@@ -6,11 +6,12 @@
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     
     <ui:composition template="/layout.xhtml">
-        <ui:define name="title">Album <h:outputText value="#{updateAlbum.current.title}"/></ui:define>
+        <ui:define name="title">Album "<h:outputText value="#{updateAlbum.current.title}"/>"</ui:define>
         
         <ui:define name="content">
+            <h:link value="&lt; Retour à la liste" outcome="/user/list-albums.xhtml" class="btn btn-link"/>
 
-            <h1>Album <h:outputText value="#{updateAlbum.current.title}"/></h1>
+            <h1 class="display-4">Album "<h:outputText value="#{updateAlbum.current.title}"/>"</h1>
 
             <h:form>
                 <div class="form-group">

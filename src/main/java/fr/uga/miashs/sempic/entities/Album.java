@@ -6,7 +6,6 @@
 package fr.uga.miashs.sempic.entities;
 
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

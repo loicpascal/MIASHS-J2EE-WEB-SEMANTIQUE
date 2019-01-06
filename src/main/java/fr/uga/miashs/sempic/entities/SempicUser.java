@@ -7,10 +7,7 @@ package fr.uga.miashs.sempic.entities;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Set;
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,9 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.QueryHint;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.security.enterprise.identitystore.IdentityStoreHandler;
-import javax.security.enterprise.identitystore.PasswordHash;
-import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import javax.validation.constraints.*;
 
 /**

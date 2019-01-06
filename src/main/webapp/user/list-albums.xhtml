@@ -3,14 +3,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     
     <ui:composition template="/layout.xhtml">
         <ui:define name="title">Liste des albums</ui:define>
         
         <ui:define name="content">
             
-            <h1>Liste des albums</h1>
+            <h1 class="display-4">Liste des albums</h1>
+            
+            <c:if test="#{not empty facesContext.messageList}">
+                <div class="alert alert-secondary"><h:messages globalOnly="true"/></div>
+            </c:if>
 
             <h:form>
                 <h:dataTable id="albums" value="#{albumController.dataModel}" var="album" class="table">
@@ -28,16 +33,19 @@
                             <h:outputText value="Actions" />
                         </f:facet>
 
-                        <!-- <c:if test="#{Integer.parseInt(sessionTools.connectedUser.id) == Integer.parseInt(album.owner.id)}"> -->
-                            <h:link value="Voir" outcome="/user/view-album.xhtml?albumId=#{album.id}" class="btn btn-secondary"/>
-                            <h:outputText value="&#160;"/><h:link value="Modifier" outcome="/user/update-album.xhtml?albumId=#{album.id}" class="btn btn-secondary"/>
-                            <h:outputText value="&#160;"/><h:commandLink action="#{albumController.delete(album.id)}" value="Supprimer" class="btn btn-secondary"/>
-                        <!-- </c:if> -->
+                        <h:link value="Voir" outcome="/user/view-album.xhtml?albumId=#{album.id}" class="btn btn-secondary"/>
+                        <h:outputText value="&#160;"/><h:link value="Modifier" outcome="/user/update-album.xhtml?albumId=#{album.id}" class="btn btn-secondary"/>
+                        <h:outputText value="&#160;"/><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteAlbum#{album.id}">Supprimer</button>
+
+                        <!-- Modal -->
+                        <ui:include src="/includes/modalDeleteAlbum.xhtml">
+                            <ui:param name="album" value="#{album}" />
+                        </ui:include>
                     </h:column>
 
                 </h:dataTable>
             </h:form>
-
+            
             <h:link value="Créer un album" outcome="/user/create-album.xhtml" class="btn btn-primary"/>
             
         </ui:define>

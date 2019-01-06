@@ -42,11 +42,12 @@ public class UpdateAlbum implements Serializable {
     public String update() {
         try {
             service.update(current);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Album modifié avec succès."));
         } catch (SempicModelException ex) {
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
-            return "failure";
+            return "update-album";
         }
         
-        return "success";
+        return "list-albums";
     }
 }

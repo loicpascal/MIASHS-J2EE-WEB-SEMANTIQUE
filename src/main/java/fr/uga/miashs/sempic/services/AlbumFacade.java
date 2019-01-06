@@ -9,9 +9,6 @@ import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.SempicUser;
 import java.util.List;
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -20,7 +17,6 @@ import javax.persistence.Query;
  */
 @Stateful
 public class AlbumFacade extends AbstractJpaFacade<Long,Album> {
-
 
     public AlbumFacade() {
         super(Album.class);

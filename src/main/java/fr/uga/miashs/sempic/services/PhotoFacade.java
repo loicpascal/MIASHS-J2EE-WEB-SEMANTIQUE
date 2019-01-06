@@ -30,7 +30,6 @@ public class PhotoFacade extends AbstractJpaFacade<Long,Photo> {
     public PhotoFacade() {
         super(Photo.class);        
     }
-    
 
     @Override
     public void create(Photo p) throws SempicModelException {

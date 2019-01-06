@@ -11,20 +11,28 @@
         
         <ui:define name="content">
 
-            <h1>Recherche</h1>
+            <h1 class="display-4">Recherche</h1>
 
             <h:form>
-                <div class="form-group">
-                    <label for="title">Titre de la photo</label>
-                    <h:inputText id="title" class="form-control"/>
-                    <small><h:message for="title" class="form-text text-muted"/></small>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="title">Titre</label>
+                            <h:inputText id="title" class="form-control"/>
+                            <small><h:message for="title" class="form-text text-muted"/></small>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="title">Type</label>
+                            <h:selectOneMenu value="#{searchPhoto.type}" class="form-control"> 
+                                <f:selectItem itemValue="1" itemLabel="Animal" /> 
+                                <f:selectItem itemValue="2" itemLabel="Personne" /> 
+                             </h:selectOneMenu>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <h:selectOneMenu value="#{searchPhoto.type}" class="form-control"> 
-                        <f:selectItem itemValue="1" itemLabel="Item 1" /> 
-                        <f:selectItem itemValue="2" itemLabel="Item 2" /> 
-                     </h:selectOneMenu>
-                </div>
+                
                 <h:commandButton value="Chercher" action="#{searchPhoto.search()}" class="btn btn-primary"/>
 
                 <h:messages globalOnly="true"/>
@@ -33,7 +41,7 @@
             <br/><br/>
             
             <c:if test="#{!empty searchPhoto.photos}">
-                <h2>Résultats</h2>
+                <h2>Résultats (<h:outputText value="#{searchPhoto.photos.size()}" />)</h2>
                 <div class="row">
                     <ui:repeat id="listPhotos" value="#{searchPhoto.photos}" var="photo">
 
@@ -42,6 +50,7 @@
                                     <h:graphicImage value="/webapi/picture/#{photo.path}?width=200" class="card-img-top"/>
                                     <div class="card-body">
                                         <h5 class="card-title">Titre</h5>
+                                        <h:link value="Voir" outcome="/user/view-photo.xhtml?photoId=#{photo.id}" class="btn btn-secondary btn-sm"/>
                                     </div>
                                  </div>
                             </div>

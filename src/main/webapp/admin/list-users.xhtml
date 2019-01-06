@@ -10,7 +10,7 @@
         
         <ui:define name="content">
             
-            <h1>Liste des utilisateurs</h1>
+            <h1 class="display-4">Liste des utilisateurs</h1>
 
             <h:dataTable id="users" value="#{userController.dataModel}" var="user" class="table">
 
@@ -47,8 +47,6 @@
                 </h:column>
 
             </h:dataTable>
-
-            <h:link value="Ajouter un utilisateur" outcome="/public/create-user.xhtml" class="btn btn-primary"/>
             
         </ui:define>
     </ui:composition>

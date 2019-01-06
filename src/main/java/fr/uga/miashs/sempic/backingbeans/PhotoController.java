@@ -128,6 +128,6 @@ public class PhotoController implements Serializable {
             return "failure";
         }
         
-        return "success";
+        return "list-album?faces-redirect=true&includeViewParams=true";
     }
 }

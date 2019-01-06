@@ -72,6 +72,7 @@ public class AlbumController implements Serializable {
     
     /**
      * Renvoie la liste des photos de l'album passé en paramètre
+     * @param album
      * @return 
      */
     public List<Photo> getPhotos(Album album) {
@@ -100,7 +101,7 @@ public class AlbumController implements Serializable {
             return "failure";
         }
         
-        return "success";
+        return "list-albums";
     }
     
     /**
@@ -119,6 +120,7 @@ public class AlbumController implements Serializable {
             }
       
             albumService.delete(current);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Album supprimé avec succès."));
         } catch (SempicModelException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
@@ -133,28 +135,25 @@ public class AlbumController implements Serializable {
      * @return 
      */
     public String delete(long id) {
+        System.out.println("LOULOU");
         Album album = albumService.read(id);
-        this.setCurrent(album);
-        System.out.println(current.getId());
         try {
             List<Photo> photos = getPhotos(album);
-            System.out.println(photos);
             Iterator li = photos.listIterator();
 
             while(li.hasNext()) {
                 Photo photo = (Photo) li.next();
-                System.out.println(photo);
-                System.out.println("photo to delete : " + photo.getId());
-                photoService.delete(photo);
+                photoService.deleteId(photo.getId());
             }
             
-            albumService.delete(album);
+            albumService.deleteId(album.getId());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Album supprimé avec succès."));
         } catch (SempicModelException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
         }
         
-        return "success";
+        return "list-albums";
     }
     
     public DataModel<Album> getDataModel() {

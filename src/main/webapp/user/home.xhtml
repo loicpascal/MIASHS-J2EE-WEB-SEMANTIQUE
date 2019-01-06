@@ -10,18 +10,23 @@
         
         <ui:define name="content">
             
-        <h1>Bienvenue <h:outputText value="#{sessionTools.connectedUser.firstname}"/><h:outputText value="&#160;"/><h:outputText value="#{sessionTools.connectedUser.lastname}"/></h1>
+        <h1 class="display-4">Bienvenue <h:outputText value="#{sessionTools.connectedUser.firstname}"/><h:outputText value="&#160;"/><h:outputText value="#{sessionTools.connectedUser.lastname}"/></h1>
         
-        <ul>
-            <c:if test="#{sessionTools.isAdmin()}">
-                <li>
-                    <h:link value="Liste de utilisateurs" outcome="/admin/list-users.xhtml"/>
-                </li>
-                <li>
-                    <h:link value="Liste des albums" outcome="/user/list-albums.xhtml"/>
-                </li>
-            </c:if>
-        </ul>
+        <p class="lead text-justify">
+            L'application Java EE <strong>PhotoStore</strong> est une plateforme sur laquelle les internautes peuvent s'inscrire, créer leur albums et y ajouter des photos.
+            Elle utilise les technologies du Web sémantique pour permettre aux utilisateurs d'enrichir chaque photo en y ajoutant des annotations (Ex : Qui est sur la photo ? Que représente la photo ? Où et quand la photo a-t-elle été prise ?).
+            <br/>Toutes ces informations sont ensuite stockées dans un graphe <a target="_blank" href="https://fr.wikipedia.org/wiki/Resource_Description_Framework">RDF</a>.
+            <br/><br/>À l'aide d'une ontologie (ensemble de relations sémantiques entre des éléments), il est alors possible d'effectuer des recherches complexes sur l'ensemble des photos de l'application.
+            Exemple de recherche :
+            <ul class="lead">
+                <li>Retrouver toutes les photos réprésentant les amis d'une personne définie</li>
+                <li>Retrouver tous les selfies</li>
+                <li>Retrouver toutes les photos prises à Grenoble</li>
+                <li>Retrouver toutes les photos d'animaux</li>
+            </ul>
+            <p class="lead">Le framework <a target="_blank" href="https://jena.apache.org/">Apache Jena</a> fournit une API permettant d'écrire les données dans le graphe RDF et de les extraire via le langage de requête  et protocole SPARQL.</p>
+        </p>
+        <h:link value="Lancer une recherche" outcome="/user/search.xhtml" class="btn btn-secondary"/>
         
         </ui:define>
     </ui:composition>

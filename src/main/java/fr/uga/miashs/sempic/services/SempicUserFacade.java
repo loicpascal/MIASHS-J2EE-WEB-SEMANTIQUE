@@ -7,7 +7,6 @@ package fr.uga.miashs.sempic.services;
 
 import fr.uga.miashs.sempic.entities.SempicUser;
 import javax.ejb.Stateless;
-import javax.persistence.NamedQuery;
 import javax.persistence.Query;
 
 /**
