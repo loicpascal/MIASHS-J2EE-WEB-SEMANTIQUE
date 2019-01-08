@@ -36,9 +36,7 @@ public class SempicGroup implements Serializable {
     @ManyToMany
     private Set<SempicUser> members;
 
-    public SempicGroup() {
-        
-    }
+    public SempicGroup() {}
     
     public long getId() {
         return id;
@@ -68,8 +66,6 @@ public class SempicGroup implements Serializable {
         this.members = members;
         members.add(owner);
     }
-    
-    
 
     @Override
     public int hashCode() {

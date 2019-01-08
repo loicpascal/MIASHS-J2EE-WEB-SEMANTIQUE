@@ -42,6 +42,10 @@ import javax.validation.constraints.*;
 @NamedQuery(
         name = "readByEmail",
         query = "SELECT DISTINCT u FROM SempicUser u WHERE u.email=:email "
+),
+@NamedQuery(
+        name = "findAllByGroup",
+        query = "SELECT DISTINCT u FROM SempicUser u LEFT JOIN FETCH u.memberOf m WHERE m.id=:group "
 )
 })
 public class SempicUser implements Serializable {

@@ -12,13 +12,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.sql.DataSourceDefinition;
+import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 import javax.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
 import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
@@ -55,7 +52,7 @@ import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 @FacesConfig( version = FacesConfig.Version.JSF_2_3)
 
-@ApplicationScoped
+@Singleton
 @Startup
 public class ApplicationConfig {
     
@@ -79,11 +76,9 @@ public class ApplicationConfig {
         try {
             userFacade.create(admin);
             Logger.getLogger(ApplicationConfig.class.getName()).log(Level.INFO, "Admin created");
-            System.out.println("------------------------YES-----------------");
         }
         catch (SempicModelException e) {
             Logger.getLogger(ApplicationConfig.class.getName()).log(Level.INFO, "Admin already exists");
-            System.out.println("------------------------SHIT-----------------");
         }
         
     }

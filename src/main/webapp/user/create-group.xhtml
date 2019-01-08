@@ -11,19 +11,23 @@
         
         <ui:define name="content">
             
+            <h:link value="&lt; Retour à la liste" outcome="/user/list-groups.xhtml" class="btn btn-link"/>
+            
             <h1 class="display-4">Création d'un groupe</h1>
 
             <h:form>
-                <h:panelGrid columns = "3">
-                    <label for="lastname">Nom :</label>
-                    <h:inputText id="lastname" h:placeholder="Mon groupe" value="#{createGroup.current.name}"/>
-                    <h:message for="lastname"/>
-                </h:panelGrid>
-                <label>Members:</label>
-                <h:selectManyCheckbox id="members" layout="pageDirection" value="#{createGroup.current.members}">
-                    <f:selectItems value="#{createGroup.users}"  var="u" itemLabel="#{u.email}"/>
-                </h:selectManyCheckbox>
-                <h:commandButton value="Créer" action="#{createGroup.create()}"/>
+                <div class="form-group">
+                    <label for="name">Nom</label>
+                    <h:inputText id="name" h:placeholder="Mon groupe" value="#{groupController.current.name}" class="form-control"/>
+                    <h:message for="name"/>
+                </div>
+                <div class="form-group form-check">
+                    <label>Membres</label>
+                    <h:selectManyCheckbox id="members" layout="pageDirection" value="#{groupController.current.members}">
+                        <f:selectItems value="#{groupController.users}" var="u" itemLabel="#{u.email}" class="form-check-input"/>
+                    </h:selectManyCheckbox>
+                </div>
+                <h:commandButton value="Créer" action="#{groupController.create()}" class="btn btn-primary"/>
 
                 <h:messages globalOnly="true"/>
             </h:form>

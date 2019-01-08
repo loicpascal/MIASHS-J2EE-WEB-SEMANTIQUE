@@ -5,7 +5,9 @@
  */
 package fr.uga.miashs.sempic.services;
 
+import fr.uga.miashs.sempic.entities.SempicGroup;
 import fr.uga.miashs.sempic.entities.SempicUser;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
@@ -34,5 +36,10 @@ public class SempicUserFacade extends AbstractJpaFacade<Long,SempicUser> {
         return (SempicUser) q.getSingleResult();
     }
     
+    public List<SempicUser> findAll(SempicGroup g) {
+        Query q = getEntityManager().createNamedQuery("findAllByGroup");
+        q.setParameter("group", g);
+        return q.getResultList();
+    }
     
 }

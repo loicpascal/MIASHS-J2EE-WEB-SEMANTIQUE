@@ -7,9 +7,13 @@ package fr.uga.miashs.sempic.backingbeans;
 
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.SempicModelUniqueException;
+import fr.uga.miashs.sempic.entities.Album;
+import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.services.SempicUserFacade;
 import fr.uga.miashs.sempic.entities.SempicUser;
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -36,7 +40,7 @@ public class UserController implements Serializable {
     private SempicUser current;
     
     @Inject
-    private SempicUserFacade service;
+    private SempicUserFacade userService;
     
     @Inject
     private transient Pbkdf2PasswordHash hashAlgo;
@@ -75,10 +79,8 @@ public class UserController implements Serializable {
     }*/
     
     public String create() {
-        //System.out.println(current);
-        
         try {
-            service.create(current);
+            userService.create(current);
         } 
         catch (SempicModelUniqueException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("un utilisateur avec cette adresse mail existe déjà"));
@@ -92,9 +94,27 @@ public class UserController implements Serializable {
         return "success";
     }
     
+    /**
+     * Suppression d'un utilisateur par son identifiant
+     * @param id
+     * @return 
+     */
+    public String delete(long id) {
+        SempicUser user = userService.read(id);
+        try {
+            userService.deleteId(user.getId());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Utilisateur supprimé avec succès."));
+        } catch (SempicModelException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            return "failure";
+        }
+        
+        return "success";
+    }
+    
     public DataModel<SempicUser> getDataModel() {
         if (dataModel == null) {
-            dataModel = new ListDataModel<>(service.findAll());
+            dataModel = new ListDataModel<>(userService.findAll());
         }
         return dataModel;
     }

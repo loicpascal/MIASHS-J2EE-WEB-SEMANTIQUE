@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <ui:composition template="/layout.xhtml">
+        <ui:define name="title">Groupe "<h:outputText value="#{updateGroup.current.name}"/>"</ui:define>
+        
+        <ui:define name="content">
+            <h:link value="&lt; Retour à la liste" outcome="/user/list-groups.xhtml" class="btn btn-link"/>
+
+            <h1 class="display-4">Groupe "<h:outputText value="#{updateGroup.current.name}"/>"</h1>
+
+            <c:if test="#{not empty facesContext.messageList}">
+                <div class="alert alert-secondary"><h:messages globalOnly="true"/></div>
+            </c:if>
+            
+            <h:form>
+                <div class="form-group">
+                    <label for="name">Titre</label>
+                    <h:inputText id="name" p:placeholder="Mon groupe" value="#{updateGroup.current.name}" class="form-control"/>
+                    <small><h:message for="name" class="form-text text-muted"/></small>
+                </div>
+                <div class="form-group form-check">
+                    <label>Membres</label>
+                    <h:selectManyCheckbox id="members" layout="pageDirection" value="#{updateGroup.current.members}">
+                        <f:selectItems value="#{updateGroup.users}" var="u" itemLabel="#{u.email}" class="form-check-input"/>
+                    </h:selectManyCheckbox>
+                </div>
+                <h:commandButton value="Modifier" action="#{updateGroup.update()}" class="btn btn-primary"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

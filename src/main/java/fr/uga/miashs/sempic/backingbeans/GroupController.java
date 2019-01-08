@@ -11,20 +11,17 @@ import fr.uga.miashs.sempic.qualifiers.SelectedUser;
 import fr.uga.miashs.sempic.services.SempicUserFacade;
 import fr.uga.miashs.sempic.entities.SempicGroup;
 import fr.uga.miashs.sempic.entities.SempicUser;
+import fr.uga.miashs.sempic.entities.SempicUserType;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 /**
  *
@@ -45,11 +42,13 @@ public class GroupController implements Serializable {
     
     @Inject
     private SempicUserFacade userService;
-
     
-    public GroupController() {
-        
-    }
+    @Inject
+    private GroupFacade groupService;
+    
+    private DataModel<SempicGroup> dataModel;
+    
+    public GroupController() {}
     
     @PostConstruct
     public void init() {
@@ -57,10 +56,13 @@ public class GroupController implements Serializable {
         current.setOwner(selectedUser);
     }
 
-    
     public List<SempicUser> getUsers() {
         return userService.findAll();
     }
+    
+    /*public List<SempicUser> getUsers(SempicGroup group) {
+        return userService.findAll(group);
+    }*/
 
     public SempicGroup getCurrent() {
         return current;
@@ -71,15 +73,25 @@ public class GroupController implements Serializable {
     }
     
     public String create() {
-        System.out.println(current);
-        
         try {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Groupe créé avec succès"));
             service.create(current);
         } catch (SempicModelException ex) {
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
         }
         
         return "success";
+    }
+    
+    public DataModel<SempicGroup> getDataModel() {
+        if (dataModel == null) {
+            if (selectedUser.getUserType() == SempicUserType.ADMIN) {
+                dataModel = new ListDataModel<>(groupService.findAll());
+            } else {
+                dataModel = new ListDataModel<>();
+            }
+        }
+        return dataModel;
     }
 }

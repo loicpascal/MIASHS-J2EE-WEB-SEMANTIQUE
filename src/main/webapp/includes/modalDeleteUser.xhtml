@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     
-    <div class="modal fade" id="modalDeleteAlbum#{album.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDeleteUser#{user.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -13,11 +13,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Êtes-vous sûr de vouloir supprimer l'album "<h:outputText value="#{album.title}"/>" ?
+                    Êtes-vous sûr de vouloir supprimer l'utilisateur "<h:outputText value="#{user.firstname}&#160;#{user.lastname}"/>" ?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <h:outputText value="&#160;"/><h:commandLink action="#{albumController.delete(album.id)}" value="Supprimer" class="btn btn-secondary"/>
+                    <h:outputText value="&#160;"/><h:commandLink action="#{userController.delete(user.id)}" value="Supprimer" class="btn btn-secondary"/>
                 </div>
             </div>
         </div>

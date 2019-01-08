@@ -17,7 +17,6 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -101,7 +100,7 @@ public class AlbumController implements Serializable {
             return "failure";
         }
         
-        return "list-albums";
+        return "success";
     }
     
     /**
@@ -135,7 +134,6 @@ public class AlbumController implements Serializable {
      * @return 
      */
     public String delete(long id) {
-        System.out.println("LOULOU");
         Album album = albumService.read(id);
         try {
             List<Photo> photos = getPhotos(album);
@@ -153,7 +151,7 @@ public class AlbumController implements Serializable {
             return "failure";
         }
         
-        return "list-albums";
+        return "success";
     }
     
     public DataModel<Album> getDataModel() {

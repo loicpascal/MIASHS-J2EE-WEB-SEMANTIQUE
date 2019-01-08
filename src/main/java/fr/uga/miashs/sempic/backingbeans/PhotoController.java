@@ -9,17 +9,11 @@ import fr.uga.miashs.sempic.qualifiers.SelectedAlbum;
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
-import fr.uga.miashs.sempic.qualifiers.SelectedUser;
-import fr.uga.miashs.sempic.entities.SempicUser;
-import fr.uga.miashs.sempic.services.AlbumFacade;
 import fr.uga.miashs.sempic.services.PhotoFacade;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -122,12 +116,13 @@ public class PhotoController implements Serializable {
      */
     public String delete(long id) {
         try {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo supprimée avec succès"));
             service.deleteId(id);
         } catch (SempicModelException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
         }
         
-        return "list-album?faces-redirect=true&includeViewParams=true";
+        return "success";
     }
 }

@@ -19,7 +19,7 @@ import javax.persistence.criteria.Root;
  */
 public abstract class AbstractJpaFacade<K, T> {
 
-    @PersistenceContext(unitName="SempicPU")
+    @PersistenceContext(unitName="SempicPU"/*,type = PersistenceContextType.EXTENDED*/)
     private EntityManager em;
         
     private Class<T> entityClass;

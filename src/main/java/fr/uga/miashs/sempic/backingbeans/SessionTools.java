@@ -8,26 +8,26 @@ package fr.uga.miashs.sempic.backingbeans;
 import fr.uga.miashs.sempic.SempicException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
+import fr.uga.miashs.sempic.entities.SempicGroup;
 import fr.uga.miashs.sempic.qualifiers.LoggedUser;
 import fr.uga.miashs.sempic.qualifiers.SelectedUser;
 import fr.uga.miashs.sempic.entities.SempicUser;
 import fr.uga.miashs.sempic.entities.SempicUserType;
 import fr.uga.miashs.sempic.qualifiers.SelectedAlbum;
+import fr.uga.miashs.sempic.qualifiers.SelectedGroup;
 import fr.uga.miashs.sempic.qualifiers.SelectedPhoto;
 import fr.uga.miashs.sempic.services.AlbumFacade;
+import fr.uga.miashs.sempic.services.GroupFacade;
 import fr.uga.miashs.sempic.services.PhotoFacade;
 import fr.uga.miashs.sempic.services.SempicUserFacade;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.SecurityContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -46,6 +46,9 @@ public class SessionTools implements Serializable {
 
     @Inject
     private SempicUserFacade userService;
+    
+    @Inject
+    private GroupFacade groupService;
     
     @Inject
     private AlbumFacade albumService;
@@ -93,7 +96,7 @@ public class SessionTools implements Serializable {
             long id = Long.parseLong(userId);
             return userService.read(id);
         } catch (NumberFormatException e) {
-            throw new SempicException("parameter userId is not a number: "+userId,e);
+            throw new SempicException("parameter userId is not a number: " + userId,e);
         }
     }
     
@@ -104,19 +107,40 @@ public class SessionTools implements Serializable {
     @Named
     public Album getSelectedAlbum() throws SempicException {
         String albumId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("albumId");
-        if (albumId != null ) {
+        if (albumId != null) {
             try {
                 long id = Long.parseLong(albumId);
                 Album a =  albumService.read(id);
                 if (getConnectedUser()==null || (getConnectedUser().getUserType() != SempicUserType.ADMIN && ! a.getOwner().equals(getConnectedUser()))){
-                     throw new SempicException("not allowed to access albumId="+albumId);
+                     throw new SempicException("not allowed to access albumId=" + albumId);
                 }
                 return a;
             } catch (NumberFormatException e) {
-                throw new SempicException("parameter albumId is not a number: "+albumId,e);
+                throw new SempicException("parameter albumId is not a number: " + albumId,e);
             }
         } 
         throw new SempicException("parameter albumId not given");
+    }
+    
+    @Produces
+    @SelectedGroup
+    @Dependent
+    @Named
+    public SempicGroup getSelectedGroup() throws SempicException {
+        String groupId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("groupId");
+        if (groupId != null) {
+            try {
+                long id = Long.parseLong(groupId);
+                SempicGroup a = groupService.read(id);
+                if (getConnectedUser()==null || (getConnectedUser().getUserType() != SempicUserType.ADMIN && ! a.getOwner().equals(getConnectedUser()))){
+                     throw new SempicException("not allowed to access groupId = " + groupId);
+                }
+                return a;
+            } catch (NumberFormatException e) {
+                throw new SempicException("parameter groupId is not a number : " + groupId,e);
+            }
+        } 
+        throw new SempicException("parameter groupId not given");
     }
     
     @Produces
@@ -125,7 +149,7 @@ public class SessionTools implements Serializable {
     @Named
     public Photo getSelectedPhoto() throws SempicException {
         String photoId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("photoId");
-        if (photoId != null ) {
+        if (photoId != null) {
             try {
                 long id = Long.parseLong(photoId);
                 Photo a =  photoService.read(id);
