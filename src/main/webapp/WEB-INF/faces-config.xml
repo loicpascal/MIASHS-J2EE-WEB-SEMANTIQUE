@@ -145,24 +145,50 @@
     
     <!-- PHOTO -->
     <navigation-rule>
-        <from-action>#{photoController.delete}</from-action>
+        <from-view-id>/user/update-photo.xhtml</from-view-id>
+        <from-action>#{updatePhoto.update}</from-action>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>/user/view-album.xhtml</to-view-id>
+            <to-view-id>/user/update-photo.xhtml</to-view-id>
             <redirect include-view-params="true">
                 <view-param>
-                    <name>albumId</name>
-                    <value>#{updateAlbum.current.id}</value>
+                    <name>photoId</name>
+                    <value>#{updatePhoto.current.id}</value>
                 </view-param>
             </redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>failure</from-outcome>
-            <to-view-id>/user/update-album.xhtml</to-view-id>
+            <to-view-id>/user/update-photo.xhtml</to-view-id>
             <redirect include-view-params="true">
                 <view-param>
-                    <name>albumId</name>
-                    <value>#{updateAlbum.current.id}</value>
+                    <name>photoId</name>
+                    <value>#{updatePhoto.current.id}</value>
+                </view-param>
+            </redirect>
+      </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/user/update-photo.xhtml</from-view-id>
+        <from-action>#{updatePhoto.addAnnotation}</from-action>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/user/update-photo.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <name>photoId</name>
+                    <value>#{updatePhoto.current.id}</value>
+                </view-param>
+            </redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/user/update-photo.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <name>photoId</name>
+                    <value>#{updatePhoto.current.id}</value>
                 </view-param>
             </redirect>
       </navigation-case>

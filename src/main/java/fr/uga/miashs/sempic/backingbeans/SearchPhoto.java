@@ -63,6 +63,10 @@ public class SearchPhoto implements Serializable {
         this.photos = photos;
     }
     
+    public List<Resource> getCities() {
+        return rdfService.getCities();
+    }
+    
     public String search() {
         try {
             Album album = albumService.read(Long.valueOf(1));

@@ -9,6 +9,9 @@ import fr.uga.miashs.sempic.qualifiers.SelectedAlbum;
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
+import fr.uga.miashs.sempic.entities.RdfPhoto;
+import fr.uga.miashs.sempic.entities.SempicUser;
+import fr.uga.miashs.sempic.qualifiers.LoggedUser;
 import fr.uga.miashs.sempic.services.PhotoFacade;
 import fr.uga.miashs.sempic.services.SempicRDFService;
 import java.io.IOException;
@@ -21,6 +24,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
+import org.apache.jena.rdf.model.Resource;
 
 /**
  *
@@ -42,6 +46,10 @@ public class PhotoController implements Serializable {
     private PhotoFacade service;
     
     private final SempicRDFService rdfService;
+    
+    @Inject
+    @LoggedUser
+    private SempicUser loggedUser;
     
     public PhotoController() {
         this.rdfService = new SempicRDFService();
@@ -78,9 +86,11 @@ public class PhotoController implements Serializable {
             current.setAlbum(selectedAlbum);
             try {
                 service.create(current,p.getInputStream());
+                rdfService.createPhoto(current.getId(), selectedAlbum.getId(), loggedUser.getId());
+                rdfService.setTakenBy(current.getId(), loggedUser.getId());
             } catch (SempicModelException ex) {
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
-               partiallyFailed=true; 
+               partiallyFailed=true;
                
             } catch (IOException ex) {
                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));

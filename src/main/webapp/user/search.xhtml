@@ -18,48 +18,45 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="title">Titre</label>
-                            <h:inputText id="title" class="form-control"/>
+                            <h:inputText id="title" class="form-control" value="#{searchPhoto.search.title}"/>
                             <small><h:message for="title" class="form-text text-muted"/></small>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="type">Type</label>
-                        <h:selectOneMenu id="type" value="#{searchPhoto.search.type}" class="form-control">
-                            <f:selectItems value="#{searchPhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
-                        </h:selectOneMenu>
-                    </div>
-                    <div class="col">
-                        <label for="instance">Instance</label>
-                        <h:selectOneMenu id="instance" value="#{searchPhoto.search.type}" class="form-control">
-                            <f:selectItems value="#{searchPhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
-                        </h:selectOneMenu>
+                        <div class="form-group">
+                            <label for="instance">Instance</label>
+                            <h:selectOneMenu id="instance" value="#{searchPhoto.search.type}" class="form-control">
+                                <f:selectItem itemLabel="" noSelectionOption="true"/>
+                                <f:selectItems value="#{searchPhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
+                            </h:selectOneMenu>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <!-- TODO -->
-                    <ui:remove>
                     <div class="col">
-                        <label for="city">Prise dans la ville de</label>
-                        <h:selectOneMenu id="city" value="#{searchPhoto.search.city}" class="form-control">
-                            <f:selectItems value="#{searchPhoto.cities}" var="c" itemLabel="#{c.localName}"/>
-                        </h:selectOneMenu>
+                        <div class="form-group">
+                            <label for="city">Prise dans la ville de</label>
+                            <h:selectOneMenu id="city" value="#{searchPhoto.search.city}" class="form-control">
+                                <f:selectItem itemLabel="" noSelectionOption="true"/>
+                                <f:selectItems value="#{searchPhoto.cities}" var="c" itemLabel="#{c.getProperty(RDFS.label).getLiteral().string}"/>
+                            </h:selectOneMenu>
+                        </div>
                     </div>
-                    </ui:remove>
                 </div>
                 
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
                             <label for="dateDebut">Date de début</label>
-                            <h:inputText id="dateDebut" class="form-control datepicker"/>
+                            <h:inputText id="dateDebut" value="#{searchPhoto.search.dateDebut}" class="form-control datepicker"/>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="dateFin">Date de fin</label>
-                            <h:inputText id="dateFin" class="form-control datepicker"/>
+                            <h:inputText id="dateFin" value="#{searchPhoto.search.dateDebut}" class="form-control datepicker"/>
                         </div>
                     </div>
                 </div>

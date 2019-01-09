@@ -50,7 +50,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Titre</h5>
                                 <h:form>
-                                    <h:link value="Modifier" outcome="/user/update-photo.xhtml?photoId=#{photo.id}" class="btn btn-secondary btn-sm"/>
+                                    <h:link value="Annoter" outcome="/user/update-photo.xhtml?photoId=#{photo.id}" class="btn btn-secondary btn-sm"/>
                                     <h:outputText value="&#160;" /><h:commandLink action="#{photoController.delete(photo.id)}" value="Supprimer" class="btn btn-danger btn-sm"/>
                                 </h:form>
                             </div>

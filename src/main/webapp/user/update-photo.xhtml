@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     
     <ui:composition template="/layout.xhtml">
         <ui:define name="title">Photo n°<h:outputText value="#{updatePhoto.current.id}"/></ui:define>
@@ -11,37 +12,76 @@
         <ui:define name="content">
             <h:link value="&lt; Retour à l'album" outcome="/user/view-album.xhtml?albumId=#{updatePhoto.current.album.id}" class="btn btn-link"/>
             
-            <h1 class="display-4">Photo n°<h:outputText value="#{updatePhoto.current.id}"/></h1>
-
-            <h:graphicImage value="/webapi/picture/#{updatePhoto.current.path}?width=200"/>
+            <h1 class="display-4">Photo n°<h:outputText value="#{updatePhoto.current.id}"/> - <h:outputText value="#{updatePhoto.rdfPhoto.title}"/></h1>
             
-            <br/><br/>
+            <c:if test="#{not empty facesContext.messageList}">
+                <div class="alert alert-secondary"><h:messages globalOnly="true"/></div>
+            </c:if>
+
+            <div class="row">
+                <div class="col">
+                    <h:graphicImage value="/webapi/picture/#{updatePhoto.current.path}?width=500"/>
+                </div>
+                <div class="col">
+                    <h2>Informations</h2>
+                    <h:form>
+                        <!-- Titre -->
+                        <div class="form-group">
+                            <label for="title">Titre</label>
+                            <h:inputText id="title" class="form-control" value="#{updatePhoto.rdfPhoto.title}"/>
+                            <small><h:message for="title" class="form-text text-muted"/></small>
+                        </div>
+
+                        <!-- Ville -->
+                        <div class="form-group">
+                            <label for="city">Prise dans la ville de</label>
+                            <h:selectOneMenu id="city" value="#{updatePhoto.rdfPhoto.city}" class="form-control">
+                                <f:selectItem itemLabel="" noSelectionOption="true"/>
+                                <f:selectItems value="#{updatePhoto.cities}" var="c" itemLabel="#{c.getProperty(RDFS.label).getLiteral().string}"/>
+                            </h:selectOneMenu>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <h:inputText id="date" class="form-control datepicker" value="#{updatePhoto.rdfPhoto.date}"/>
+                        </div>
+
+                        <h:commandButton value="Modifier" action="#{updatePhoto.update()}" class="btn btn-primary"/>
+                    </h:form>
+                </div>
+            </div>
+            
+            <hr/>
+            <h2>Annotations</h2>
             <h:form>
-                <div class="form-group">
-                    <label for="title">Titre</label>
-                    <h:inputText id="title" class="form-control"/>
-                    <small><h:message for="title" class="form-text text-muted"/></small>
-                </div>
-                <div class="form-group">
-                    <label for="type">Type</label>
-                    <h:selectOneMenu id="type" value="#{updatePhoto.search.type}" class="form-control"> 
-                        <f:selectItems value="#{updatePhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
-                    </h:selectOneMenu>
-                </div>
-                <!-- TODO -->
-                <ui:remove>
-                    <div class="form-group">
-                        <label for="city">Prise dans la ville de</label>
-                        <h:selectOneMenu id="city" value="#{searchPhoto.search.city}" class="form-control">
-                            <f:selectItems value="#{searchPhoto.cities}" var="c" itemLabel="#{c.localName}"/>
-                        </h:selectOneMenu>
+                <div class="row">
+                    <ui:remove>
+                    <div class="col">
+                        <!-- Type -->
+                        <div class="form-group">
+                            <label for="type">Type</label>
+                            <h:selectOneMenu id="type" value="#{updatePhoto.rdfPhoto.type}" class="form-control">
+                                <f:selectItem itemLabel="" noSelectionOption="true"/>
+                                <f:selectItems value="#{updatePhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
+                            </h:selectOneMenu>
+                        </div>
                     </div>
-                </ui:remove>
-                <div class="form-group">
-                    <label for="date">Date</label>
-                    <h:inputText id="date" class="form-control datepicker"/>
+                    </ui:remove>
+                    
+                    <div class="col">
+                        <!-- Type -->
+                        <div class="form-group">
+                            <label for="instance">Instances</label>
+                            <h:selectOneMenu id="instance" value="#{updatePhoto.rdfPhoto.instance}" class="form-control">
+                                <f:selectItem itemLabel="" noSelectionOption="true"/>
+                                <f:selectItems value="#{updatePhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
                 </div>
-                <h:commandButton value="Modifier" action="#{updatePhoto.update()}" class="btn btn-primary"/>
+                
+                <h:commandButton value="Ajouter l'annotation" action="#{updatePhoto.addAnnotation()}" class="btn btn-primary"/>
             </h:form>
             
             <script>
