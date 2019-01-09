@@ -22,23 +22,31 @@
                             <small><h:message for="title" class="form-text text-muted"/></small>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col">
                         <label for="type">Type</label>
                         <h:selectOneMenu id="type" value="#{searchPhoto.search.type}" class="form-control">
                             <f:selectItems value="#{searchPhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
                         </h:selectOneMenu>
                     </div>
-                    <div class="row">
-                        <!-- TODO -->
-                        <ui:remove>
-                        <div class="col">
-                            <label for="city">Prise dans la ville de</label>
-                            <h:selectOneMenu id="city" value="#{searchPhoto.search.city}" class="form-control">
-                                <f:selectItems value="#{searchPhoto.cities}" var="c" itemLabel="#{c.localName}"/>
-                            </h:selectOneMenu>
-                        </div>
-                        </ui:remove>
+                    <div class="col">
+                        <label for="instance">Instance</label>
+                        <h:selectOneMenu id="instance" value="#{searchPhoto.search.type}" class="form-control">
+                            <f:selectItems value="#{searchPhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
+                        </h:selectOneMenu>
                     </div>
+                </div>
+                <div class="row">
+                    <!-- TODO -->
+                    <ui:remove>
+                    <div class="col">
+                        <label for="city">Prise dans la ville de</label>
+                        <h:selectOneMenu id="city" value="#{searchPhoto.search.city}" class="form-control">
+                            <f:selectItems value="#{searchPhoto.cities}" var="c" itemLabel="#{c.localName}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    </ui:remove>
                 </div>
                 
                 <div class="row">
