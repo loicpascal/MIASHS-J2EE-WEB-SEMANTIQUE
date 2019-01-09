@@ -10,6 +10,7 @@ import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.services.PhotoFacade;
+import fr.uga.miashs.sempic.services.SempicRDFService;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -40,8 +41,10 @@ public class PhotoController implements Serializable {
     @Inject
     private PhotoFacade service;
     
+    private final SempicRDFService rdfService;
+    
     public PhotoController() {
-        
+        this.rdfService = new SempicRDFService();
     }
     
     @PostConstruct

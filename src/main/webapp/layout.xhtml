@@ -6,8 +6,12 @@
     <h:head>
         <title>PhotoStore - <ui:insert name="title">PhotoStore</ui:insert></title>
         <h:outputStylesheet library="default" name="css/bootstrap.css"  />
+        <h:outputStylesheet library="default" name="css/jquery-ui.min.css"  />
     </h:head>
     <h:body>
+        <h:outputScript library="default" name="js/jquery.min.js"/>
+        <h:outputScript library="default" name="js/jquery-ui.min.js"/>
+        <h:outputScript library="default" name="js/bootstrap.min.js"/>
         <div class="container">
             
             <ui:insert name="header">
@@ -20,8 +24,6 @@
                 <ui:include src="/footer.xhtml" />
             </ui:insert>
         </div>
-        <h:outputScript library="default" name="js/jquery.min.js"/>
-        <h:outputScript library="default" name="js/bootstrap.min.js"/>
     </h:body>
 </html>
 

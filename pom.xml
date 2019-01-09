@@ -34,6 +34,10 @@
                     <groupId>nekohtml</groupId>
                     <artifactId>xercesMinimal</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.jena</groupId>
+                    <artifactId>jena-tdb2</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>

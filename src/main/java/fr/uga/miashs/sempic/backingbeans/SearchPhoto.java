@@ -5,20 +5,22 @@
  */
 package fr.uga.miashs.sempic.backingbeans;
 
+import fr.uga.miashs.sempic.Search;
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.services.AlbumFacade;
 import fr.uga.miashs.sempic.services.PhotoFacade;
+import fr.uga.miashs.sempic.services.SempicRDFService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.jena.rdf.model.Resource;
 
 @Named
 @RequestScoped
@@ -32,27 +34,22 @@ public class SearchPhoto implements Serializable {
     @Inject
     private PhotoFacade photoService;
     
-    private String type;
+    private final SempicRDFService rdfService;
     
-    private List<String> types;
+    private Search search;
 
-    public List<String> getTypes() {
-        return types;
+    public Search getSearch() {
+        return search;
     }
 
-    public void setTypes(List<String> types) {
-        this.types = types;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setSearch(Search search) {
+        this.search = search;
     }
     
-    public SearchPhoto() {}
+    public SearchPhoto() {
+        this.rdfService = new SempicRDFService();
+        this.search = new Search();
+    }
     
     @PostConstruct
     public void init() {
@@ -76,5 +73,13 @@ public class SearchPhoto implements Serializable {
         }
         
         return "search";
+    }
+    
+    /*public List<Resource> getCities() {
+        return rdfService.getPlaces();
+    }*/
+    
+    public List<Resource> getDepictions() {
+        return rdfService.getDepictions();
     }
 }

@@ -23,12 +23,35 @@
                         </div>
                     </div>
                     <div class="col">
+                        <label for="type">Type</label>
+                        <h:selectOneMenu id="type" value="#{searchPhoto.search.type}" class="form-control">
+                            <f:selectItems value="#{searchPhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="row">
+                        <!-- TODO -->
+                        <ui:remove>
+                        <div class="col">
+                            <label for="city">Prise dans la ville de</label>
+                            <h:selectOneMenu id="city" value="#{searchPhoto.search.city}" class="form-control">
+                                <f:selectItems value="#{searchPhoto.cities}" var="c" itemLabel="#{c.localName}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        </ui:remove>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
-                            <label for="title">Type</label>
-                            <h:selectOneMenu value="#{searchPhoto.type}" class="form-control"> 
-                                <f:selectItem itemValue="1" itemLabel="Animal" /> 
-                                <f:selectItem itemValue="2" itemLabel="Personne" /> 
-                             </h:selectOneMenu>
+                            <label for="dateDebut">Date de début</label>
+                            <h:inputText id="dateDebut" class="form-control datepicker"/>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="dateFin">Date de fin</label>
+                            <h:inputText id="dateFin" class="form-control datepicker"/>
                         </div>
                     </div>
                 </div>
@@ -57,6 +80,31 @@
                     </ui:repeat>
                 </div>
             </c:if>
+            
+            <script>
+            $(function() {
+                $.datepicker.regional['fr'] = {clearText: 'Effacer', clearStatus: '',
+                    closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
+                    prevText: '&lt;Préc', prevStatus: 'Voir le mois précédent',
+                    nextText: 'Suiv&gt;', nextStatus: 'Voir le mois suivant',
+                    currentText: 'Courant', currentStatus: 'Voir le mois courant',
+                    monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin',
+                    'Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                    monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun',
+                    'Jul','Aoû','Sep','Oct','Nov','Déc'],
+                    monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
+                    weekHeader: 'Sm', weekStatus: '',
+                    dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+                    dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+                    dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+                    dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
+                    dateFormat: 'dd/mm/yy', firstDay: 1, 
+                    initStatus: 'Choisir la date', isRTL: false};
+                $.datepicker.setDefaults($.datepicker.regional['fr']);
+                
+                $(".datepicker").datepicker({});
+            });
+            </script>
             
         </ui:define>
     </ui:composition>

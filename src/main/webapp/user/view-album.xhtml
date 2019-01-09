@@ -44,18 +44,18 @@
             
             <div class="row">
                 <ui:repeat id="listPhotos" value="#{viewAlbum.photos}" var="photo">
-                        <div class="col-sm-3 mb-4">
-                            <div class="card">
-                                <h:graphicImage value="/webapi/picture/#{photo.path}?width=200" class="card-img-top"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Titre</h5>
-                                    <h:form>
-                                        <h:link value="Modifier" outcome="/user/update-photo.xhtml?photoId=#{photo.id}" class="btn btn-secondary btn-sm"/>
-                                        <h:outputText value="&#160;" /><h:commandLink action="#{photoController.delete(photo.id)}" value="Supprimer" class="btn btn-danger btn-sm"/>
-                                    </h:form>
-                                </div>
-                             </div>
-                        </div>
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
+                            <h:graphicImage value="/webapi/picture/#{photo.path}?width=200" class="card-img-top"/>
+                            <div class="card-body">
+                                <h5 class="card-title">Titre</h5>
+                                <h:form>
+                                    <h:link value="Modifier" outcome="/user/update-photo.xhtml?photoId=#{photo.id}" class="btn btn-secondary btn-sm"/>
+                                    <h:outputText value="&#160;" /><h:commandLink action="#{photoController.delete(photo.id)}" value="Supprimer" class="btn btn-danger btn-sm"/>
+                                </h:form>
+                            </div>
+                         </div>
+                    </div>
                 </ui:repeat>
             </div>
             
