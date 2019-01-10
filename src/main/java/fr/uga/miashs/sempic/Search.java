@@ -7,19 +7,22 @@ package fr.uga.miashs.sempic;
 
 import java.util.Date;
 import org.apache.jena.rdf.model.Resource;
+import javax.inject.Singleton;
 
 /**
  *
  * @author loicp
  */
+
+@Singleton
 public class Search
 {
 
     private String title;
 
-    private Resource type;
+    private String type;
 
-    private Resource instance;
+    private String instance;
 
     private Date dateDebut;
 
@@ -35,19 +38,19 @@ public class Search
         this.title = title;
     }
 
-    public Resource getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Resource type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public Resource getInstance() {
+    public String getInstance() {
         return instance;
     }
 
-    public void setInstance(Resource instance) {
+    public void setInstance(String instance) {
         this.instance = instance;
     }
 
