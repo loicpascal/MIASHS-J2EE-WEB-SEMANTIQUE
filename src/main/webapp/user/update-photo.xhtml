@@ -20,6 +20,7 @@
 
             <div class="row">
                 <div class="col">
+                    <br/><br/>
                     <h:graphicImage value="/webapi/picture/#{updatePhoto.current.path}?width=500"/>
                 </div>
                 <div class="col">
@@ -41,6 +42,15 @@
                             </h:selectOneMenu>
                         </div>
 
+                        <!-- Prise par -->
+                        <div class="form-group">
+                            <label for="takenBy">Prise par</label>
+                            <h:selectOneMenu id="takenBy" value="#{updatePhoto.rdfPhoto.takenBy}" class="form-control">
+                                <f:selectItem itemLabel="" noSelectionOption="true"/>
+                                <f:selectItems value="#{updatePhoto.personnes}" var="c" itemLabel="#{c.localName}"/>
+                            </h:selectOneMenu>
+                        </div>
+
                         <!-- Date -->
                         <div class="form-group">
                             <label for="date">Date</label>
@@ -54,6 +64,14 @@
             
             <hr/>
             <h2>Annotations</h2>
+            
+            <ul class="list-group">
+                <h:form> 
+                <ui:repeat id="listPhotoDepictions" value="#{updatePhoto.photoDepictions}" var="depiction">
+                    <li class="list-group-item"><h:commandButton title="Supprimer l'annotation" value="X" action="#{updatePhoto.deleteAnnotation(depiction.URI)}" class="btn btn-outline-danger btn-sm"/><h:outputText value="&#160;"/><h:outputText value="#{depiction.getProperty(SempicOnto.title).getLiteral()}" /></li>
+                </ui:repeat>
+                </h:form>
+            </ul>
             <h:form>
                 <div class="row">
                     <ui:remove>

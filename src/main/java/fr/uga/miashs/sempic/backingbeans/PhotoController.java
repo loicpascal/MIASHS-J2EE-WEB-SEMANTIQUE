@@ -87,7 +87,6 @@ public class PhotoController implements Serializable {
             try {
                 service.create(current,p.getInputStream());
                 rdfService.createPhoto(current.getId(), selectedAlbum.getId(), loggedUser.getId());
-                rdfService.setTakenBy(current.getId(), loggedUser.getId());
             } catch (SempicModelException ex) {
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
                partiallyFailed=true;

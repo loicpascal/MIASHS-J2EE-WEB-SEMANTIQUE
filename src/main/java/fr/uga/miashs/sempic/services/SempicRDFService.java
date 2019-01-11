@@ -7,6 +7,8 @@ package fr.uga.miashs.sempic.services;
 
 import fr.uga.miashs.sempic.model.rdf.SempicOnto;
 import fr.uga.miashs.sempic.rdf.RDFStore;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.apache.jena.rdf.model.Resource;
 
@@ -28,6 +30,11 @@ public class SempicRDFService {
         List<Resource> depictions = rdfStore.listInstancesByType(SempicOnto.Depiction.getURI());
         
         return depictions;
+    }
+    
+    public List<Resource> getPersonnes() {
+        List<Resource> personnes = rdfStore.listInstancesByType(SempicOnto.Person.getURI());
+        return personnes;
     }
     
     public List<Resource> getCities() {
@@ -66,26 +73,26 @@ public class SempicRDFService {
      * @param date
      * @return 
      */
-    public Resource setDate(long photoId, String date) {
+    public Resource setDate(long photoId, Calendar date) {
         Resource photo = rdfStore.readPhoto(photoId);
         
         // Suppression du triplet RDF représentant l'ancienne date
         rdfStore.deleteResource(photo, SempicOnto.takenAt.getURI());
         
         // Ajout du triplet représentant la nouvelle date de la photo
-        photo = rdfStore.createAnnotationData(photoId, SempicOnto.takenAt.getURI(), date);
+        photo = rdfStore.createAnnotationDataUsingDate(photoId, SempicOnto.takenAt.getURI(), date);
         
         return photo;
     }
     
-    public Resource setTakenBy(long photoId, long userId) {
+    public Resource setTakenBy(long photoId, String takenBy) {
         Resource photo = rdfStore.readPhoto(photoId);
         
         // Suppression du triplet RDF représentant l'ancienne date
         rdfStore.deleteResource(photo, SempicOnto.takenBy.getURI());
         
         // Ajout du triplet représentant la nouvelle date de la photo
-        photo = rdfStore.createAnnotationData(photoId, SempicOnto.takenBy.getURI(), String.valueOf(userId));
+        photo = rdfStore.createAnnotationObject(photoId, SempicOnto.takenBy.getURI(), takenBy);
         
         return photo;
     }
@@ -103,8 +110,16 @@ public class SempicRDFService {
     }
     
     public Resource addAnnotationObject(long photoId, String pUri, String oUri) {
-        Resource photo = rdfStore.createAnnotationObject(photoId, pUri, oUri);
+        return rdfStore.createAnnotationObject(photoId, pUri, oUri);
+    }
+    
+    public List<Resource> getPhotoDepictions(long id) {
+        return rdfStore.getPhotoDepictions(id);
+    }
+    
+    public void deletePhotoAnnotation(long photoId, String pURI) {
+        Resource photo = rdfStore.readPhoto(photoId);
         
-        return photo;
+        rdfStore.deleteAnnotationByObject(photo, pURI);
     }
 }

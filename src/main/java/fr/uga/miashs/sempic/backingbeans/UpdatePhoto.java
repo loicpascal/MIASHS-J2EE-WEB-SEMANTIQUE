@@ -13,6 +13,11 @@ import fr.uga.miashs.sempic.model.rdf.SempicOnto;
 import fr.uga.miashs.sempic.rdf.RDFStore;
 import fr.uga.miashs.sempic.services.SempicRDFService;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -83,8 +88,16 @@ public class UpdatePhoto implements Serializable {
         return rdfService.getCities();
     }
     
-    public void populateRdfPhoto() {
-        
+    public List<Resource> getPersonnes() {
+        return rdfService.getPersonnes();
+    }
+    
+    public List<Resource> getPhotoDepictions() {
+        return rdfService.getPhotoDepictions(current.getId());
+    }
+    
+    public void deleteAnnotation(String pUri) {
+        rdfService.deletePhotoAnnotation(current.getId(), pUri);
     }
     
     public String update() {
@@ -99,15 +112,28 @@ public class UpdatePhoto implements Serializable {
         return "success";
     }
     
-    private void setRdfInformations() {
+    private void setRdfInformations() throws ParseException {
         if (rdfPhoto.getTitle() != null) {
             rdfService.setTitle(current.getId(), rdfPhoto.getTitle());
         }
-        if (rdfPhoto.getDate() != null) {
-            rdfService.setDate(current.getId(), rdfPhoto.getDate());
-        }
         if (rdfPhoto.getCity() != null) {
             rdfService.setCity(current.getId(), rdfPhoto.getCity());
+        }
+        System.out.println(rdfPhoto.getTakenBy());
+        if (rdfPhoto.getTakenBy() != null) {
+            System.out.println(rdfPhoto.getTakenBy());
+            rdfService.setTakenBy(current.getId(), rdfPhoto.getTakenBy());
+        }
+        if (rdfPhoto.getDate() != null) {
+            DateFormat formatter = new SimpleDateFormat("dd/mm/yy");
+            try {
+                Date date = formatter.parse(rdfPhoto.getDate());
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                rdfService.setDate(current.getId(), cal);
+            } catch(ParseException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
     
