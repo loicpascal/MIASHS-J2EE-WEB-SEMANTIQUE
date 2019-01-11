@@ -13,7 +13,7 @@
 
             <h1 class="display-4">Recherche</h1>
 
-            <h:form>
+            <h:form id="search">
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
@@ -25,13 +25,19 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
-                            <label for="instance">Instance</label>
-                            <h:selectOneMenu id="instance" value="#{searchPhoto.search.type}" class="form-control">
-                                <f:selectItem itemLabel="" noSelectionOption="true"/>
-                                <f:selectItems value="#{searchPhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
-                            </h:selectOneMenu>
-                        </div>
+                        <label for="type">Type</label>
+                        <h:selectOneMenu id="type" value="#{searchPhoto.search.type}" class="form-control">
+                            <f:selectItem itemLabel="" noSelectionOption="true"/>
+                            <f:selectItems value="#{searchPhoto.depictionClasses}" var="d" itemLabel="#{d.getProperty(RDFS.label, 'fr').getLiteral().string}"/>
+                            <f:ajax event="change" execute="type" render="instance" />
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="col">
+                        <label for="instance">Instance</label>
+                        <h:selectOneMenu id="instance" value="#{searchPhoto.search.instance}" class="form-control">
+                            <f:selectItem itemLabel="" noSelectionOption="true"/>
+                            <f:selectItems value="#{searchPhoto.instances}" var="d" itemLabel="#{d.getProperty(RDFS.label).getLiteral().string}"/>
+                        </h:selectOneMenu>
                     </div>
                 </div>
                 <div class="row">

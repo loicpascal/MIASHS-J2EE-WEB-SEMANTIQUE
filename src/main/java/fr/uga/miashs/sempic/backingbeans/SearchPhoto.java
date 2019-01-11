@@ -15,7 +15,7 @@ import fr.uga.miashs.sempic.services.SempicRDFService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -23,9 +23,9 @@ import javax.inject.Named;
 import org.apache.jena.rdf.model.Resource;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class SearchPhoto implements Serializable {
-    
+
     private List<Photo> photos;
     
     @Inject
@@ -83,7 +83,11 @@ public class SearchPhoto implements Serializable {
         return rdfService.getPlaces();
     }*/
     
-    public List<Resource> getDepictions() {
-        return rdfService.getDepictions();
+    public List<Resource> getDepictionClasses() {
+        return rdfService.getDepictionClasses();
+    }
+
+    public List<Resource> getInstances() {
+        return rdfService.getInstancesFromType(search.getType());
     }
 }
