@@ -38,7 +38,7 @@
                             <label for="city">Prise dans la ville de</label>
                             <h:selectOneMenu id="city" value="#{updatePhoto.rdfPhoto.city}" class="form-control">
                                 <f:selectItem itemLabel="" noSelectionOption="true"/>
-                                <f:selectItems value="#{updatePhoto.cities}" var="c" itemLabel="#{c.getProperty(RDFS.label).getLiteral().string}"/>
+                                <f:selectItems value="#{updatePhoto.cities}" var="c" itemLabel="#{c.getProperty(FOAF.name).getLiteral().string}"/>
                             </h:selectOneMenu>
                         </div>
 
