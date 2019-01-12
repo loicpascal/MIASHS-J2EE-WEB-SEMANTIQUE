@@ -29,7 +29,15 @@
                         <h:selectOneMenu id="type" value="#{searchPhoto.search.type}" class="form-control">
                             <f:selectItem itemLabel="" noSelectionOption="true"/>
                             <f:selectItems value="#{searchPhoto.depictionClasses}" var="d" itemLabel="#{d.getProperty(RDFS.label, 'fr').getLiteral().string}"/>
-                            <f:ajax event="change" execute="type" render="instance" />
+                            <f:ajax event="change" execute="type" render="instance objectProperty" />
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="col">
+                        <label for="instance">Lien</label>
+                        <h:selectOneMenu id="objectProperty" value="#{searchPhoto.search.objectProperty}" class="form-control">
+                            <f:selectItem itemLabel="" noSelectionOption="true"/>
+                            <f:selectItems value="#{searchPhoto.objectProperties}" var="d" itemLabel="#{d.getProperty(RDFS.label, 'fr').getLiteral().string}"/>
+                            <f:ajax event="change" execute="objectProperty" render="instance" />
                         </h:selectOneMenu>
                     </div>
                     <div class="col">

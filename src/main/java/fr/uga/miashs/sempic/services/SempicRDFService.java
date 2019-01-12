@@ -134,4 +134,8 @@ public class SempicRDFService {
         return instances;
     }
 
+    public List<Resource> getObjectProperiesFromType(String type) {
+        return rdfStore.getObjectPropertyByDomain(type);
+    }
+
 }

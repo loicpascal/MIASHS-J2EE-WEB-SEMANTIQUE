@@ -90,4 +90,8 @@ public class SearchPhoto implements Serializable {
     public List<Resource> getInstances() {
         return rdfService.getInstancesFromType(search.getType());
     }
+
+    public List<Resource> getObjectProperties() {
+        return rdfService.getObjectProperiesFromType(search.getType());
+    }
 }

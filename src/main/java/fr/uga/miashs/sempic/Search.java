@@ -22,6 +22,8 @@ public class Search
 
     private String type;
 
+    private String objectProperty;
+
     private String instance;
 
     private Date dateDebut;
@@ -44,6 +46,14 @@ public class Search
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getObjectProperty() {
+        return objectProperty;
+    }
+
+    public void setObjectProperty(String objectProperty) {
+        this.objectProperty = objectProperty;
     }
 
     public String getInstance() {
