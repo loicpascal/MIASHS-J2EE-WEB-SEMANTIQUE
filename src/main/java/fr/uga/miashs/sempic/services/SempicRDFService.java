@@ -134,6 +134,11 @@ public class SempicRDFService {
         return instances;
     }
 
+    public List<Resource> getInstancesFromObjectProperty(String objectProperty) {
+        List<Resource> instances = rdfStore.listInstancesByObjectProperty(objectProperty);
+        return instances;
+    }
+
     public List<Resource> getObjectProperiesFromType(String type) {
         return rdfStore.getObjectPropertyByDomain(type);
     }
