@@ -5,8 +5,12 @@
  */
 package fr.uga.miashs.sempic;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.apache.jena.rdf.model.Resource;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Singleton;
 
 /**
@@ -30,7 +34,7 @@ public class Search
 
     private Date dateFin;
 
-    private Resource city;
+    private String city;
 
     public String getTitle() {
         return title;
@@ -64,27 +68,56 @@ public class Search
         this.instance = instance;
     }
 
-    public Date getDateDebut() {
-        return dateDebut;
+    public String getDateDebut() {
+        return getDateDebut("dd/MM/yyyy");
     }
 
-    public void setDateDebut(Date dateDebut) {
-        this.dateDebut = dateDebut;
+    public String getDateDebut(String format) {
+        if (null != dateDebut) {
+            SimpleDateFormat simpleFormat = new SimpleDateFormat(format);
+            return simpleFormat.format(dateDebut);
+        }
+        return null;
     }
 
-    public Date getDateFin() {
-        return dateFin;
+    public void setDateDebut(String dateDebut) throws ParseException {
+        this.dateDebut = null;
+        if (null != dateDebut) {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            this.dateDebut = formatter.parse(dateDebut);
+            
+        }
     }
 
-    public void setDateFin(Date dateFin) {
-        this.dateFin = dateFin;
+    public String getDateFin() {
+        return getDateFin("dd/MM/yyyy");
     }
 
-    public Resource getCity() {
+    public String getDateFin(String format) {
+        if (null != dateFin) {
+            SimpleDateFormat simpleFormat = new SimpleDateFormat(format);
+            return simpleFormat.format(dateFin);
+        }
+        return null;
+    }
+
+    public void setDateFin(String dateFin) {
+        this.dateFin = null;
+        if (null != dateFin) {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                this.dateFin = formatter.parse(dateFin);
+            } catch (ParseException ex) {
+                Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public String getCity() {
         return city;
     }
 
-    public void setCity(Resource city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
