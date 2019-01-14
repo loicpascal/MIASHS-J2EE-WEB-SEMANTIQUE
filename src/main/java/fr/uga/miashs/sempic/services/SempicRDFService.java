@@ -8,7 +8,6 @@ package fr.uga.miashs.sempic.services;
 import fr.uga.miashs.sempic.model.rdf.SempicOnto;
 import fr.uga.miashs.sempic.rdf.RDFStore;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import org.apache.jena.rdf.model.Resource;
 
@@ -138,4 +137,16 @@ public class SempicRDFService {
         return rdfStore.getObjectPropertyByDomain(type);
     }
 
+    public List<Resource> getObjectPropertyByDomain(String type) {
+        return rdfStore.getObjectPropertyByDomain(type);
+    }
+    
+    /**
+     * Créé une instance anonyme de type "type"
+     * @param type
+     * @return 
+     */
+    public Resource createAnonInstance(String type) {
+        return rdfStore.createAnonInstance(type);
+    }
 }

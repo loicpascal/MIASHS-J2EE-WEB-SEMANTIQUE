@@ -47,7 +47,6 @@ public class UpdateAlbum implements Serializable {
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
         }
-        
         return "success";
     }
 }

@@ -117,7 +117,13 @@
         <from-action>#{updateAlbum.update}</from-action>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>/user/list-albums.xhtml</to-view-id>
+            <to-view-id>/user/update-album.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <name>albumId</name>
+                    <value>#{updateAlbum.current.id}</value>
+                </view-param>
+            </redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>failure</from-outcome>
@@ -170,6 +176,31 @@
     </navigation-rule>
     
     <navigation-rule>
+        <from-view-id>/user/view-album.xhtml</from-view-id>
+        <from-action>#{photoController.delete}</from-action>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/user/view-album.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <name>albumId</name>
+                    <value>#{photoController.current.album.id}</value>
+                </view-param>
+            </redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/user/view-album.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <name>albumId</name>
+                    <value>#{photoController.current.album.id}</value>
+                </view-param>
+            </redirect>
+      </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
         <from-view-id>/user/update-photo.xhtml</from-view-id>
         <from-action>#{updatePhoto.addAnnotation}</from-action>
         <navigation-case>
@@ -192,6 +223,21 @@
                 </view-param>
             </redirect>
       </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/user/update-photo.xhtml</from-view-id>
+        <from-action>#{updatePhoto.deleteAnnotation}</from-action>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/user/update-photo.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <name>photoId</name>
+                    <value>#{updatePhoto.current.id}</value>
+                </view-param>
+            </redirect>
+        </navigation-case>
     </navigation-rule>
     
 </faces-config>

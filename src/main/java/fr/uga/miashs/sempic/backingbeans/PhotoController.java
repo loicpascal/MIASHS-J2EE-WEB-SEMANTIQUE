@@ -74,7 +74,7 @@ public class PhotoController implements Serializable {
     public void setFiles(List<Part> files) {
         this.files = files;
     }
-    
+
     public String create() {
         if (selectedAlbum==null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("parameter albumId must be given"));
@@ -90,22 +90,19 @@ public class PhotoController implements Serializable {
             } catch (SempicModelException ex) {
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
                partiallyFailed=true;
-               
             } catch (IOException ex) {
                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
                  partiallyFailed=true;
-                
             }
         }
         if (partiallyFailed) {
              return "failure";
-        }
-        else {
+        } else {
             init();
             return "success";
         }
     }
-    
+
     /**
      * Suppression de la photo courante
      * @return 
@@ -113,28 +110,28 @@ public class PhotoController implements Serializable {
     public String delete() {
         try {
             service.delete(current);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo supprimée avec succès"));
         } catch (SempicModelException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
         }
-        
         return "success";
     }
-    
+
     /**
      * Suppression d'une photo par son identifiant
      * @param id
      * @return 
      */
     public String delete(long id) {
+        current = service.read(id);
         try {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo supprimée avec succès"));
             service.deleteId(id);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo supprimée avec succès"));
         } catch (SempicModelException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
         }
-        
         return "success";
     }
 }

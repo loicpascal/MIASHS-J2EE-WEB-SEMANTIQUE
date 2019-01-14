@@ -48,7 +48,7 @@ import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 @FormAuthenticationMechanismDefinition(
         loginToContinue = @LoginToContinue(
                 loginPage = "/faces/login.xhtml",
-                errorPage = "/login-error.html"))
+                errorPage = "/faces/login-error.xhtml"))
 
 @FacesConfig( version = FacesConfig.Version.JSF_2_3)
 

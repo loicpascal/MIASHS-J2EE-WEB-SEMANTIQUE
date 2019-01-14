@@ -12,7 +12,7 @@
         
         <ui:define name="content">
             
-            <h:link value="&lt; Retour à la liste" outcome="/user/list-albums.xhtml" class="btn btn-link"/>
+            <h:link value="&lt; Retour à la liste" outcome="/user/list-albums.xhtml" class="btn btn-outline-primary"/>
 
             <h1 class="display-4">
                 Album "<h:outputText value="#{viewAlbum.current.title}"/>"
@@ -33,7 +33,7 @@
             <h:form id="addPhoto" enctype="multipart/form-data" class="was-validated">
                 <div class="custom-file">
                     <h:inputFile p:multiple="multiple" id="photoUpload" p:type="file" value="#{viewAlbum.createPhoto.files}" p:accept="image/*" class="custom-file-input">
-                        <f:ajax listener="#{viewAlbum.createPhoto.create()}" render="@form"/> 
+                        <f:ajax listener="#{viewAlbum.createPhoto.create()}" render="@all"/> 
                     </h:inputFile>
                     <label class="custom-file-label" for="photoUpload">Ajoutez une ou plusieurs photos</label>
                 </div>
@@ -41,14 +41,13 @@
             </h:form>
             
             <br/><br/>
-            
+
             <div class="row">
                 <ui:repeat id="listPhotos" value="#{viewAlbum.photos}" var="photo">
                     <div class="col-sm-3 mb-4">
                         <div class="card">
                             <h:graphicImage value="/webapi/picture/#{photo.path}?width=200" class="card-img-top"/>
                             <div class="card-body">
-                                <h5 class="card-title">Titre</h5>
                                 <h:form>
                                     <h:link value="Annoter" outcome="/user/update-photo.xhtml?photoId=#{photo.id}" class="btn btn-secondary btn-sm"/>
                                     <h:outputText value="&#160;" /><h:commandLink action="#{photoController.delete(photo.id)}" value="Supprimer" class="btn btn-danger btn-sm"/>

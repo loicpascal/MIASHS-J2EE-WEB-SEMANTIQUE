@@ -10,7 +10,7 @@
         <ui:define name="title">Photo n°<h:outputText value="#{updatePhoto.current.id}"/></ui:define>
         
         <ui:define name="content">
-            <h:link value="&lt; Retour à l'album" outcome="/user/view-album.xhtml?albumId=#{updatePhoto.current.album.id}" class="btn btn-link"/>
+            <h:link value="&lt; Retour à l'album" outcome="/user/view-album.xhtml?albumId=#{updatePhoto.current.album.id}" class="btn btn-outline-primary"/>
             
             <h1 class="display-4">Photo n°<h:outputText value="#{updatePhoto.current.id}"/> - <h:outputText value="#{updatePhoto.rdfPhoto.title}"/></h1>
             
@@ -35,16 +35,16 @@
 
                         <!-- Ville -->
                         <div class="form-group">
-                            <label for="city">Prise dans la ville de</label>
+                            <label for="city">Ville ou département</label>
                             <h:selectOneMenu id="city" value="#{updatePhoto.rdfPhoto.city}" class="form-control">
                                 <f:selectItem itemLabel="" noSelectionOption="true"/>
                                 <f:selectItems value="#{updatePhoto.cities}" var="c" itemLabel="#{c.getProperty(FOAF.name).getLiteral().string}"/>
                             </h:selectOneMenu>
                         </div>
 
-                        <!-- Prise par -->
+                        <!-- Auteur -->
                         <div class="form-group">
-                            <label for="takenBy">Prise par</label>
+                            <label for="takenBy">Auteur</label>
                             <h:selectOneMenu id="takenBy" value="#{updatePhoto.rdfPhoto.takenBy}" class="form-control">
                                 <f:selectItem itemLabel="" noSelectionOption="true"/>
                                 <f:selectItems value="#{updatePhoto.personnes}" var="c" itemLabel="#{c.localName}"/>
@@ -63,37 +63,41 @@
             </div>
             
             <hr/>
+            
+            <!-- Liste des annotations -->
             <h2>Annotations</h2>
             
             <ul class="list-group">
                 <h:form> 
                 <ui:repeat id="listPhotoDepictions" value="#{updatePhoto.photoDepictions}" var="depiction">
-                    <li class="list-group-item"><h:commandButton title="Supprimer l'annotation" value="X" action="#{updatePhoto.deleteAnnotation(depiction.URI)}" class="btn btn-outline-danger btn-sm"/><h:outputText value="&#160;"/><h:outputText value="#{depiction.getProperty(SempicOnto.title).getLiteral()}" /></li>
+                    <li class="list-group-item"><h:commandButton title="Supprimer l'annotation" value="X" action="#{updatePhoto.deleteAnnotation(depiction.URI)}" class="btn btn-outline-danger btn-sm"/><h:outputText value="&#160;"/><h:outputText value="&#160;"/><h:outputText value="#{depiction.getProperty(SempicOnto.title).getLiteral()}" /></li>
                 </ui:repeat>
                 </h:form>
             </ul>
+            
+            <br/>
+            <h4>Ajouter une annotation</h4>
             <h:form>
                 <div class="row">
-                    <ui:remove>
                     <div class="col">
-                        <!-- Type -->
+                        <!-- Types -->
                         <div class="form-group">
                             <label for="type">Type</label>
-                            <h:selectOneMenu id="type" value="#{updatePhoto.rdfPhoto.type}" class="form-control">
+                            <h:selectOneMenu id="type" value="#{updatePhoto.annotationType}" class="form-control">
                                 <f:selectItem itemLabel="" noSelectionOption="true"/>
-                                <f:selectItems value="#{updatePhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
+                                <f:selectItems value="#{updatePhoto.depictionClasses}" var="d" itemLabel="#{d.getProperty(RDFS.label, 'fr').getLiteral().string}"/>
+                                <f:ajax event="change" execute="type" render="instance" />
                             </h:selectOneMenu>
                         </div>
                     </div>
-                    </ui:remove>
                     
                     <div class="col">
-                        <!-- Type -->
+                        <!-- Instances -->
                         <div class="form-group">
-                            <label for="instance">Instances</label>
+                            <label for="instance">Instance</label>
                             <h:selectOneMenu id="instance" value="#{updatePhoto.rdfPhoto.instance}" class="form-control">
-                                <f:selectItem itemLabel="" noSelectionOption="true"/>
-                                <f:selectItems value="#{updatePhoto.depictions}" var="d" itemLabel="#{d.localName}"/>
+                                <f:selectItem noSelectionOption="true"/>
+                                <f:selectItems value="#{updatePhoto.instances}" var="d" itemLabel="#{d.getProperty(RDFS.label).getLiteral().string}"/>
                             </h:selectOneMenu>
                         </div>
                     </div>

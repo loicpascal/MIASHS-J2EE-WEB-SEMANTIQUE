@@ -5,12 +5,10 @@
  */
 package fr.uga.miashs.sempic.backingbeans;
 
-import fr.uga.miashs.sempic.Search;
 import fr.uga.miashs.sempic.qualifiers.SelectedPhoto;
 import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.entities.RdfPhoto;
 import fr.uga.miashs.sempic.model.rdf.SempicOnto;
-import fr.uga.miashs.sempic.rdf.RDFStore;
 import fr.uga.miashs.sempic.services.SempicRDFService;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -25,9 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDFS;
 
 @Named
 @ViewScoped
@@ -35,33 +31,21 @@ public class UpdatePhoto implements Serializable {
     
     private RdfPhoto rdfPhoto;
     
-    private RDFStore rdfStore;
-    
     @Inject
     @SelectedPhoto
     private Photo current;
     
     private final SempicRDFService rdfService;
     
-    private Search search;
+    private String annotationType;
     
     public UpdatePhoto() {
         this.rdfService = new SempicRDFService();
-        this.search = new Search();
-        this.rdfStore = new RDFStore();
     }
     
     @PostConstruct
     public void init() {
         this.rdfPhoto = new RdfPhoto(current.getId());
-    }
-
-    public Search getSearch() {
-        return search;
-    }
-
-    public void setSearch(Search search) {
-        this.search = search;
     }
     
     public RdfPhoto getRdfPhoto() {
@@ -80,6 +64,14 @@ public class UpdatePhoto implements Serializable {
         this.current = current;
     }
     
+    public String getAnnotationType() {
+        return annotationType;
+    }
+
+    public void setAnnotationType(String annotationType) {
+        this.annotationType = annotationType;
+    }
+    
     public List<Resource> getDepictions() {
         return rdfService.getDepictions();
     }
@@ -93,11 +85,21 @@ public class UpdatePhoto implements Serializable {
     }
     
     public List<Resource> getPhotoDepictions() {
-        return rdfService.getPhotoDepictions(current.getId());
+        List<Resource> r = rdfService.getPhotoDepictions(current.getId());
+        System.out.println("photoDepictions : " + r);
+        return r;
     }
     
-    public void deleteAnnotation(String pUri) {
-        rdfService.deletePhotoAnnotation(current.getId(), pUri);
+    public List<Resource> getDepictionClasses() {
+        return rdfService.getDepictionClasses();
+    }
+    
+    public List<Resource> getObjectProperiesFromType(String type) {
+        return rdfService.getObjectPropertyByDomain(type);
+    }
+    
+    public List<Resource> getInstances() {
+        return rdfService.getInstancesFromType(annotationType);
     }
     
     public String update() {
@@ -125,11 +127,12 @@ public class UpdatePhoto implements Serializable {
             rdfService.setTakenBy(current.getId(), rdfPhoto.getTakenBy());
         }
         if (rdfPhoto.getDate() != null) {
-            DateFormat formatter = new SimpleDateFormat("dd/mm/yy");
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yy");
             try {
                 Date date = formatter.parse(rdfPhoto.getDate());
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);
+                cal.add(Calendar.DATE, 1);
                 rdfService.setDate(current.getId(), cal);
             } catch(ParseException e) {
                 System.out.println(e.getMessage());
@@ -141,8 +144,18 @@ public class UpdatePhoto implements Serializable {
         // TODO : ajouter instance anonyme
         if (rdfPhoto.getInstance() != null) {
             rdfService.addAnnotationObject(current.getId(), SempicOnto.depicts.getURI(), rdfPhoto.getInstance());
+        } else if (annotationType != null) {
+            Resource r = rdfService.createAnonInstance(annotationType);
+            rdfService.addAnnotationObject(current.getId(), SempicOnto.depicts.getURI(), r.getURI());
+        } else {
+            return "failure";
         }
         
+        return "success";
+    }
+    
+    public String deleteAnnotation(String pUri) {
+        rdfService.deletePhotoAnnotation(current.getId(), pUri);
         return "success";
     }
 }

@@ -7,11 +7,6 @@ package fr.uga.miashs.sempic.entities;
 
 import fr.uga.miashs.sempic.model.rdf.SempicOnto;
 import fr.uga.miashs.sempic.rdf.RDFStore;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import org.apache.jena.rdf.model.Resource;
 
 /**
@@ -45,8 +40,13 @@ public class RdfPhoto {
                 this.title = String.valueOf(photo.getProperty(SempicOnto.title).getLiteral());
             if (photo.getProperty(SempicOnto.takenIn) != null)
                 this.city = String.valueOf(photo.getProperty(SempicOnto.takenIn).getObject());
-            if (photo.getProperty(SempicOnto.takenAt) != null)
-                this.date = String.valueOf(photo.getProperty(SempicOnto.takenAt).getLiteral());
+            if (photo.getProperty(SempicOnto.takenAt) != null) {
+                String date = String.valueOf(photo.getProperty(SempicOnto.takenAt).getLiteral());
+                String year = date.substring(0, 4);
+                String month = date.substring(5, 7);
+                String day = date.substring(8, 10);
+                this.date = day + "/" + month + "/" + year;
+            }
             if (photo.getProperty(SempicOnto.takenAt) != null)
                 this.takenBy = String.valueOf(photo.getProperty(SempicOnto.takenBy).getObject());
         }

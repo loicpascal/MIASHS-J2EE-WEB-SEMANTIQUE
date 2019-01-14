@@ -51,7 +51,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="city">Prise dans la ville de</label>
+                            <label for="city">Ville ou département</label>
                             <h:selectOneMenu id="city" value="#{searchPhoto.search.city}" class="form-control">
                                 <f:selectItem itemLabel="" noSelectionOption="true"/>
                                 <f:selectItems value="#{searchPhoto.cities}" var="c" itemLabel="#{c.getProperty(FOAF.name, 'fr').getLiteral().string}"/>
