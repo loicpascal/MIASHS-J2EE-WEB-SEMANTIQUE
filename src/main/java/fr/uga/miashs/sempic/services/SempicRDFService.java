@@ -5,8 +5,11 @@
  */
 package fr.uga.miashs.sempic.services;
 
+import fr.uga.miashs.sempic.Search;
 import fr.uga.miashs.sempic.model.rdf.SempicOnto;
 import fr.uga.miashs.sempic.rdf.RDFStore;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import org.apache.jena.rdf.model.Resource;
@@ -133,6 +136,11 @@ public class SempicRDFService {
         return instances;
     }
 
+    public List<Resource> getInstancesFromObjectProperty(String objectProperty) {
+        List<Resource> instances = rdfStore.listInstancesByObjectProperty(objectProperty);
+        return instances;
+    }
+
     public List<Resource> getObjectProperiesFromType(String type) {
         return rdfStore.getObjectPropertyByDomain(type);
     }
@@ -148,5 +156,10 @@ public class SempicRDFService {
      */
     public Resource createAnonInstance(String type) {
         return rdfStore.createAnonInstance(type);
+    }
+
+    public List<Resource> searchPhoto(Search search, long id) {
+        return rdfStore.searchPhoto(id, search.getTitle(), search.getType(), search.getObjectProperty(), search.getInstance(),
+                search.getCity(), search.getDateDebut("yyyy-MM-dd"), search.getDateFin("yyyy-MM-dd"));
     }
 }

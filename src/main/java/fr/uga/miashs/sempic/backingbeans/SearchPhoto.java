@@ -9,10 +9,13 @@ import fr.uga.miashs.sempic.Search;
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
+import fr.uga.miashs.sempic.entities.SempicUser;
+import fr.uga.miashs.sempic.qualifiers.LoggedUser;
 import fr.uga.miashs.sempic.services.AlbumFacade;
 import fr.uga.miashs.sempic.services.PhotoFacade;
 import fr.uga.miashs.sempic.services.SempicRDFService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -33,6 +36,10 @@ public class SearchPhoto implements Serializable {
 
     @Inject
     private PhotoFacade photoService;
+    
+    @Inject
+    @LoggedUser
+    private SempicUser loggedUser;
     
     private final SempicRDFService rdfService;
     
@@ -67,15 +74,15 @@ public class SearchPhoto implements Serializable {
         return rdfService.getCities();
     }
     
-    public String search() {
-        try {
-            Album album = albumService.read(Long.valueOf(1));
-            setPhotos(photoService.findAll(album));
-        } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
-            return "search";
+    public String searchAction() {
+        List<Photo> _photos = new ArrayList<>();
+        List<Resource> rdfPhotos = rdfService.searchPhoto(search, loggedUser.getId());
+        for(Resource res : rdfPhotos) {
+            String[] sURI = res.getURI().split("/");
+            String id = sURI[sURI.length - 1];
+            _photos.add(photoService.read(Long.valueOf(id)));
         }
-        
+        setPhotos(_photos);
         return "search";
     }
     
@@ -88,6 +95,9 @@ public class SearchPhoto implements Serializable {
     }
 
     public List<Resource> getInstances() {
+        if (null != search.getObjectProperty()) {
+            return rdfService.getInstancesFromObjectProperty(search.getObjectProperty());
+        }
         return rdfService.getInstancesFromType(search.getType());
     }
 

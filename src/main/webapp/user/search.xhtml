@@ -70,12 +70,12 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="dateFin">Date de fin</label>
-                            <h:inputText id="dateFin" value="#{searchPhoto.search.dateDebut}" class="form-control datepicker"/>
+                            <h:inputText id="dateFin" value="#{searchPhoto.search.dateFin}" class="form-control datepicker"/>
                         </div>
                     </div>
                 </div>
                 
-                <h:commandButton value="Chercher" action="#{searchPhoto.search()}" class="btn btn-primary"/>
+                <h:commandButton value="Chercher" action="#{searchPhoto.searchAction()}" class="btn btn-primary"/>
 
                 <h:messages globalOnly="true"/>
             </h:form>

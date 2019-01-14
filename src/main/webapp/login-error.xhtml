@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <ui:composition template="layout.xhtml">
+        <ui:define name="title">Erreur d'authentification</ui:define>
+        
+        <ui:define name="content">
+            
+        <h1 class="display-4">Erreur d'authentification</h1>
+        
+        <p class="lead text-justify">Les identifiants saisis sont incorectes. Merci de réessayer.</p>
+        <h:link value="Se connecter" outcome="login.xhtml" class="btn btn-secondary"/>
+        
+        </ui:define>
+    </ui:composition>
+</html>
