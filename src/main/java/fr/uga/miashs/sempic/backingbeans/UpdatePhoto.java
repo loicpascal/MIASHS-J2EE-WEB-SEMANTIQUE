@@ -121,9 +121,7 @@ public class UpdatePhoto implements Serializable {
         if (rdfPhoto.getCity() != null) {
             rdfService.setCity(current.getId(), rdfPhoto.getCity());
         }
-        System.out.println(rdfPhoto.getTakenBy());
         if (rdfPhoto.getTakenBy() != null) {
-            System.out.println(rdfPhoto.getTakenBy());
             rdfService.setTakenBy(current.getId(), rdfPhoto.getTakenBy());
         }
         if (rdfPhoto.getDate() != null) {
@@ -141,7 +139,6 @@ public class UpdatePhoto implements Serializable {
     }
     
     public String addAnnotation() {
-        // TODO : ajouter instance anonyme
         if (rdfPhoto.getInstance() != null) {
             rdfService.addAnnotationObject(current.getId(), SempicOnto.depicts.getURI(), rdfPhoto.getInstance());
         } else if (annotationType != null) {

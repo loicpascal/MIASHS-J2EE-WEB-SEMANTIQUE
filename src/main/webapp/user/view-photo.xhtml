@@ -3,21 +3,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     
     <ui:composition template="/layout.xhtml">
-        <ui:define name="title">Photo n°<h:outputText value="#{updatePhoto.current.id}"/></ui:define>
+        <ui:define name="title">Photo n°<h:outputText value="#{updatePhoto.current.id}"/> - <h:outputText value="#{updatePhoto.rdfPhoto.title}"/></ui:define>
         
         <ui:define name="content">
-            <h:link value="&lt; Retour à la recherche" outcome="/user/search.xhtml" class="btn btn-link"/>
-            
-            <h1 class="display-4">Photo n°<h:outputText value="#{updatePhoto.current.id}"/></h1>
+            <h:link value="&lt; Retour à la recherche" outcome="/user/search.xhtml" class="btn btn-outline-primary"/>
 
-            <h:graphicImage value="/webapi/picture/#{updatePhoto.current.path}?width=200"/>
-            
             <br/><br/>
-            <p><strong>Titre : </strong><h:outputText value="#{updatePhoto.current.id}" /></p>
-            <p><strong>Type : </strong><h:outputText value="Animal" /></p>
+            <div class="row">
+                <div class="col">
+                    <div class="jumbotron">
+                        <h1 class="display-4"><h:outputText value="#{updatePhoto.rdfPhoto.title}"/></h1>
+                        <p class="lead">Prise le <h:outputText value="#{updatePhoto.rdfPhoto.date}"/></p>
+                        <hr class="my-4"/>
+                        <p>Auteur : <h:outputText value="#{updatePhoto.rdfPhoto.takenByResource.localName}"/></p>
+                        <p>Ville/département : <a href="#{updatePhoto.rdfPhoto.cityResource.URI}" target="_blank"><h:outputText value="#{updatePhoto.rdfPhoto.cityResource.localName}"/></a></p>
+                    </div>
+                </div>
+                <div class="col">
+                    <h:graphicImage value="/webapi/picture/#{updatePhoto.current.path}?width=500"/>
+                </div>
+            </div>
+            <hr/>
+            
+            <!-- Liste des annotations -->
+            <h2>Ce que la photo représente</h2>
+
+            <ul class="list-group">
+                <ui:repeat id="listPhotoDepictions" value="#{updatePhoto.photoDepictions}" var="depiction">
+                    <li class="list-group-item"><h:outputText value="&#160;"/><h:outputText value="&#160;"/><h:outputText value="#{depiction.getProperty(SempicOnto.title).getLiteral()}" /></li>
+                </ui:repeat>
+            </ul>
             
         </ui:define>
     </ui:composition>

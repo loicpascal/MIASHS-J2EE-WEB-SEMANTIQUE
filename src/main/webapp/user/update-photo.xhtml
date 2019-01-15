@@ -7,7 +7,7 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     
     <ui:composition template="/layout.xhtml">
-        <ui:define name="title">Photo n°<h:outputText value="#{updatePhoto.current.id}"/></ui:define>
+        <ui:define name="title">Photo n°<h:outputText value="#{updatePhoto.current.id}"/> - <h:outputText value="#{updatePhoto.rdfPhoto.title}"/></ui:define>
         
         <ui:define name="content">
             <h:link value="&lt; Retour à l'album" outcome="/user/view-album.xhtml?albumId=#{updatePhoto.current.album.id}" class="btn btn-outline-primary"/>
