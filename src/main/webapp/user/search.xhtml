@@ -74,6 +74,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="takenBy">Auteur</label>
+                            <h:selectOneMenu id="takenBy" value="#{searchPhoto.search.author}" class="form-control">
+                                <f:selectItem itemLabel="" noSelectionOption="true"/>
+                                <f:selectItems value="#{searchPhoto.personnes}" var="c" itemLabel="#{c.localName}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
                 
                 <h:commandButton value="Chercher" action="#{searchPhoto.searchAction()}" class="btn btn-primary"/>
 
@@ -91,7 +102,7 @@
                                 <div class="card">
                                     <h:graphicImage value="/webapi/picture/#{photo.path}?width=200" class="card-img-top"/>
                                     <div class="card-body">
-                                        <h5 class="card-title">Titre</h5>
+                                        <h5 class="card-title">#{photo.title}</h5>
                                         <h:link value="Voir" outcome="/user/view-photo.xhtml?photoId=#{photo.id}" class="btn btn-secondary btn-sm"/>
                                     </div>
                                  </div>

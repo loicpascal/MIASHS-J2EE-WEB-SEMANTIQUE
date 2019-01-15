@@ -5,6 +5,7 @@
  */
 package fr.uga.miashs.sempic.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,6 +36,9 @@ public class Photo implements Serializable {
     private Album album;
     
     private String filename;
+    
+    @JsonIgnore
+    private transient String title;
 
     public long getId() {
         return id;
@@ -58,6 +62,14 @@ public class Photo implements Serializable {
 
     public String getPath() {
         return getAlbum().getId()+"/"+getId();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     

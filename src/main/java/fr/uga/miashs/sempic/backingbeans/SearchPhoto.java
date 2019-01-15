@@ -10,6 +10,7 @@ import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.entities.SempicUser;
+import fr.uga.miashs.sempic.model.rdf.SempicOnto;
 import fr.uga.miashs.sempic.qualifiers.LoggedUser;
 import fr.uga.miashs.sempic.services.AlbumFacade;
 import fr.uga.miashs.sempic.services.PhotoFacade;
@@ -80,7 +81,10 @@ public class SearchPhoto implements Serializable {
         for(Resource res : rdfPhotos) {
             String[] sURI = res.getURI().split("/");
             String id = sURI[sURI.length - 1];
-            _photos.add(photoService.read(Long.valueOf(id)));
+            Photo p = photoService.read(Long.valueOf(id));
+            if (res.hasProperty(SempicOnto.title))
+                p.setTitle(res.getProperty(SempicOnto.title).getString());
+            _photos.add(p);
         }
         setPhotos(_photos);
         return "search";
@@ -103,5 +107,9 @@ public class SearchPhoto implements Serializable {
 
     public List<Resource> getObjectProperties() {
         return rdfService.getObjectProperiesFromType(search.getType());
+    }
+
+    public List<Resource> getPersonnes() {
+        return rdfService.getPersonnes();
     }
 }

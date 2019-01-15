@@ -36,6 +36,8 @@ public class Search implements Serializable {
 
     private String city;
 
+    private String author;
+
     public String getTitle() {
         return title;
     }
@@ -119,6 +121,14 @@ public class Search implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
 }

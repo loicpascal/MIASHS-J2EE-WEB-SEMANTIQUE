@@ -200,6 +200,6 @@ public class SempicRDFService {
      */
     public List<Resource> searchPhoto(Search search, long id) {
         return rdfStore.searchPhoto(id, search.getTitle(), search.getType(), search.getObjectProperty(), search.getInstance(),
-                search.getCity(), search.getDateDebut("yyyy-MM-dd"), search.getDateFin("yyyy-MM-dd"));
+                search.getCity(), search.getDateDebut("yyyy-MM-dd"), search.getDateFin("yyyy-MM-dd"), search.getAuthor());
     }
 }
