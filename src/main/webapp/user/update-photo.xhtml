@@ -12,7 +12,11 @@
         <ui:define name="content">
             <h:link value="&lt; Retour à l'album" outcome="/user/view-album.xhtml?albumId=#{updatePhoto.current.album.id}" class="btn btn-outline-primary"/>
             
-            <h1 class="display-4">Photo n°<h:outputText value="#{updatePhoto.current.id}"/> - <h:outputText value="#{updatePhoto.rdfPhoto.title}"/></h1>
+            <h1 class="display-4">
+                <c:if test="#{updatePhoto.rdfPhoto.title != null}"><h:outputText value="#{updatePhoto.rdfPhoto.title}"/> </c:if>
+                <c:if test="#{updatePhoto.rdfPhoto.title == null}">Photo sans titre </c:if>
+                (n°<h:outputText value="#{updatePhoto.current.id}"/>)
+            </h1>
             
             <c:if test="#{not empty facesContext.messageList}">
                 <div class="alert alert-secondary"><h:messages globalOnly="true"/></div>

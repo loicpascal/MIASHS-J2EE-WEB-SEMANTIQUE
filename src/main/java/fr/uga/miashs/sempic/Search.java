@@ -5,22 +5,22 @@
  */
 package fr.uga.miashs.sempic;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Singleton;
+import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author loicp
  */
 
-@Singleton
-public class Search
-{
+@SessionScoped
+public class Search implements Serializable {
 
     private String title;
 

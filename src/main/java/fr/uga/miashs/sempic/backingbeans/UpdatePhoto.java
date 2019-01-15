@@ -85,9 +85,7 @@ public class UpdatePhoto implements Serializable {
     }
     
     public List<Resource> getPhotoDepictions() {
-        List<Resource> r = rdfService.getPhotoDepictions(current.getId());
-        System.out.println("photoDepictions : " + r);
-        return r;
+        return rdfService.getPhotoDepictions(current.getId());
     }
     
     public List<Resource> getDepictionClasses() {
@@ -95,7 +93,7 @@ public class UpdatePhoto implements Serializable {
     }
     
     public List<Resource> getObjectProperiesFromType(String type) {
-        return rdfService.getObjectPropertyByDomain(type);
+        return rdfService.getObjectProperiesFromType(type);
     }
     
     public List<Resource> getInstances() {
@@ -104,7 +102,7 @@ public class UpdatePhoto implements Serializable {
     
     public String update() {
         try {
-            setRdfInformations();
+            rdfService.updateRdfInformations(rdfPhoto, current.getId());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo modifié avec succès."));
         } catch (Exception ex) {
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
@@ -112,30 +110,6 @@ public class UpdatePhoto implements Serializable {
         }
         
         return "success";
-    }
-    
-    private void setRdfInformations() throws ParseException {
-        if (rdfPhoto.getTitle() != null) {
-            rdfService.setTitle(current.getId(), rdfPhoto.getTitle());
-        }
-        if (rdfPhoto.getCity() != null) {
-            rdfService.setCity(current.getId(), rdfPhoto.getCity());
-        }
-        if (rdfPhoto.getTakenBy() != null) {
-            rdfService.setTakenBy(current.getId(), rdfPhoto.getTakenBy());
-        }
-        if (rdfPhoto.getDate() != null) {
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-            try {
-                Date date = formatter.parse(rdfPhoto.getDate());
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                cal.add(Calendar.DATE, 1);
-                rdfService.setDate(current.getId(), cal);
-            } catch(ParseException e) {
-                System.out.println(e.getMessage());
-            }
-        }
     }
     
     public String addAnnotation() {
