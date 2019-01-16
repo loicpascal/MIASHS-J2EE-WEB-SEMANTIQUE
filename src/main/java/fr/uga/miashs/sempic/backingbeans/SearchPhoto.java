@@ -78,15 +78,21 @@ public class SearchPhoto implements Serializable {
     public String searchAction() {
         List<Photo> _photos = new ArrayList<>();
         List<Resource> rdfPhotos = rdfService.searchPhoto(search, loggedUser.getId());
-        for(Resource res : rdfPhotos) {
-            String[] sURI = res.getURI().split("/");
-            String id = sURI[sURI.length - 1];
-            Photo p = photoService.read(Long.valueOf(id));
-            if (res.hasProperty(SempicOnto.title))
-                p.setTitle(res.getProperty(SempicOnto.title).getString());
-            _photos.add(p);
+        if (!rdfPhotos.isEmpty()) {
+            for(Resource res : rdfPhotos) {
+                String[] sURI = res.getURI().split("/");
+                String id = sURI[sURI.length - 1];
+                Photo p = photoService.read(Long.valueOf(id));
+                if (res.hasProperty(SempicOnto.title))
+                    p.setTitle(res.getProperty(SempicOnto.title).getString());
+                _photos.add(p);
+            }
+            setPhotos(_photos);
+        } else {
+            if(null != this.photos)
+                this.photos.clear();
+            FacesContext.getCurrentInstance().addMessage("searchInfos", new FacesMessage("Aucun résultat"));
         }
-        setPhotos(_photos);
         return "search";
     }
     

@@ -110,7 +110,7 @@
                     </ui:repeat>
                 </div>
             </c:if>
-            
+            <h:messages id="searchInfos" class="alert alert-primary" rendered="#{empty searchPhoto.photos}" style="list-style: none;"/>
             <script>
             $(function() {
                 $.datepicker.regional['fr'] = {clearText: 'Effacer', clearStatus: '',
