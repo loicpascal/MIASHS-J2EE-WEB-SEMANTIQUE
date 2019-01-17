@@ -110,7 +110,6 @@ public class AlbumController implements Serializable {
     public String delete() {
         try {
             List<Photo> photos = this.getPhotos();
-            System.out.println(photos);
             Iterator li = photos.listIterator();
 
             while(li.hasNext()) {

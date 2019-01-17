@@ -127,11 +127,22 @@ public class SempicRDFService {
      * Ajoute un triplet RDF qui décrit la photo
      * @param photoId
      * @param pUri
-     * @param oUri
+     * @param o
      * @return 
      */
-    public Resource addAnnotationObject(long photoId, String pUri, String oUri) {
-        return rdfStore.createAnnotationObject(photoId, pUri, oUri);
+    public Resource addAnnotationObject(long photoId, String pUri, Resource o) {
+        return rdfStore.createAnnotationObject(photoId, pUri, o);
+    }
+
+    /**
+     * Ajoute un triplet RDF qui décrit la photo
+     * @param photoId
+     * @param pUri
+     * @param oURI
+     * @return 
+     */
+    public Resource addAnnotationObject(long photoId, String pUri, String oURI) {
+        return rdfStore.createAnnotationObject(photoId, pUri, oURI);
     }
     
     /**

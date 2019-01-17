@@ -103,7 +103,9 @@ public class UpdatePhoto implements Serializable {
     public String update() {
         try {
             rdfService.updateRdfInformations(rdfPhoto, current.getId());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo modifié avec succès."));
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.getExternalContext().getFlash().setKeepMessages(true);
+            facesContext.addMessage(null, new FacesMessage("Photo modifié avec succès."));
         } catch (Exception ex) {
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
@@ -117,7 +119,7 @@ public class UpdatePhoto implements Serializable {
             rdfService.addAnnotationObject(current.getId(), SempicOnto.depicts.getURI(), rdfPhoto.getInstance());
         } else if (annotationType != null) {
             Resource r = rdfService.createAnonInstance(annotationType);
-            rdfService.addAnnotationObject(current.getId(), SempicOnto.depicts.getURI(), r.getURI());
+            rdfService.addAnnotationObject(current.getId(), SempicOnto.depicts.getURI(), r);
         } else {
             return "failure";
         }

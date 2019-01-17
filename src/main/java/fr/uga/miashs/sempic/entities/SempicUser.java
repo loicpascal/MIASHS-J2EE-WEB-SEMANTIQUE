@@ -64,7 +64,6 @@ public class SempicUser implements Serializable {
     @NotBlank(message="Une adresse mail doit être donnée")
     private String email;
     
-    //@NotBlank(message="Un mot de passe doit être donné")
     private String passwordHash;
     
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE)
@@ -157,7 +156,6 @@ public class SempicUser implements Serializable {
         }
         return true;
     }
-
  
     @Override
     public String toString() {

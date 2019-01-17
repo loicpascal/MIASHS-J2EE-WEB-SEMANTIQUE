@@ -70,8 +70,12 @@ public abstract class AbstractJpaFacade<K, T> {
     }
 
     public void delete(T entity) throws SempicModelException {
-        getEntityManager().remove(entity);
-        getEntityManager().flush();
+        // If the entity is detached, then reattach it. 
+        if (!em.contains(entity)) {
+            entity = em.merge(entity);
+        }
+        em.remove(entity);
+        em.flush();
     }
 
     public void deleteId(K id) throws SempicModelException {

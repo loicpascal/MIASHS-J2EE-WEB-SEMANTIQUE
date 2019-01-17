@@ -21,7 +21,6 @@ import javax.validation.constraints.NotNull;
 })
 public class SempicGroup implements Serializable {
     
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -96,10 +95,4 @@ public class SempicGroup implements Serializable {
     public String toString() {
         return "Group{" + "id=" + id + ", name=" + name + ", owner=" + owner + '}';
     }
-    
-    
-    
-    
-    
-    
 }

@@ -28,11 +28,11 @@
                 <div class="form-group form-check">
                     <label>Membres</label>
                     <h:selectManyCheckbox id="members" layout="pageDirection" value="#{updateGroup.current.members}">
-                        <f:selectItems value="#{updateGroup.users}" var="u" itemLabel="#{u.email}" class="form-check-input"/>
+                        <f:selectItems value="#{updateGroup.allUsers}" var="u" itemLabel="#{u.email}" class="form-check-input"/>
                     </h:selectManyCheckbox>
                 </div>
                 <h:commandButton value="Modifier" action="#{updateGroup.update()}" class="btn btn-primary"/>
-
+                <h:outputText value="&#160;" /><h:commandLink action="#{updateGroup.delete()}" value="Supprimer" class="btn btn-danger"/>
             </h:form>
         </ui:define>
     </ui:composition>

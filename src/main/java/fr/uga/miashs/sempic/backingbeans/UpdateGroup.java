@@ -37,6 +37,8 @@ public class UpdateGroup implements Serializable {
     @Inject
     private SempicUserFacade userService;
 
+    private UpdateGroup() {}
+    
     public SempicGroup getCurrent() {
         return current;
     }
@@ -45,7 +47,7 @@ public class UpdateGroup implements Serializable {
         this.current = current;
     }
     
-    public List<SempicUser> getUsers() {
+    public List<SempicUser> getAllUsers() {
         return userService.findAll();
     }
     
@@ -54,10 +56,30 @@ public class UpdateGroup implements Serializable {
             service.update(current);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Groupe modifié avec succès."));
         } catch (SempicModelException ex) {
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
             return "failure";
         }
         
         return "success";
+    }
+    
+    /**
+     * Suppression du groupe courant
+     * @return 
+     */
+    public String delete() {
+        try {
+            if (current.getMembers().size() > 1) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Le groupe ne peut être supprimé car il contient des utilisateurs."));
+                return "failure";
+            }
+
+            service.delete(current);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Groupe supprimé avec succès."));
+            return "success";
+        } catch (SempicModelException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            return "failure";
+        }
     }
 }
