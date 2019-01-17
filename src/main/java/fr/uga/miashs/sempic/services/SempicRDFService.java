@@ -122,18 +122,6 @@ public class SempicRDFService {
             }
         }
     }
-
-    /**
-     * Ajoute un triplet RDF qui décrit la photo
-     * @param photoId
-     * @param pUri
-     * @param o
-     * @return 
-     */
-    public Resource addAnnotationObject(long photoId, String pUri, Resource o) {
-        return rdfStore.createAnnotationObject(photoId, pUri, o);
-    }
-
     /**
      * Ajoute un triplet RDF qui décrit la photo
      * @param photoId
@@ -196,11 +184,12 @@ public class SempicRDFService {
     
     /**
      * Créé une instance anonyme du type passé en paramètre
+     * @param id
      * @param type
      * @return 
      */
-    public Resource createAnonInstance(String type) {
-        return rdfStore.createAnonInstance(type);
+    public Resource createAnonInstance(long id, String type) {
+        return rdfStore.createAnonInstance(id, type);
     }
 
     /**

@@ -118,8 +118,7 @@ public class UpdatePhoto implements Serializable {
         if (rdfPhoto.getInstance() != null) {
             rdfService.addAnnotationObject(current.getId(), SempicOnto.depicts.getURI(), rdfPhoto.getInstance());
         } else if (annotationType != null) {
-            Resource r = rdfService.createAnonInstance(annotationType);
-            rdfService.addAnnotationObject(current.getId(), SempicOnto.depicts.getURI(), r);
+            rdfService.createAnonInstance(current.getId(), annotationType);
         } else {
             return "failure";
         }
