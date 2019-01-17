@@ -9,17 +9,11 @@ import fr.uga.miashs.sempic.qualifiers.SelectedPhoto;
 import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.entities.RdfPhoto;
 import fr.uga.miashs.sempic.model.rdf.SempicOnto;
+import fr.uga.miashs.sempic.services.FaceMessageService;
 import fr.uga.miashs.sempic.services.SempicRDFService;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -103,11 +97,9 @@ public class UpdatePhoto implements Serializable {
     public String update() {
         try {
             rdfService.updateRdfInformations(rdfPhoto, current.getId());
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getExternalContext().getFlash().setKeepMessages(true);
-            facesContext.addMessage(null, new FacesMessage("Photo modifié avec succès."));
+            FaceMessageService.setMessage("Photo modifié avec succès.");
         } catch (Exception ex) {
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
         
@@ -117,8 +109,10 @@ public class UpdatePhoto implements Serializable {
     public String addAnnotation() {
         if (rdfPhoto.getInstance() != null) {
             rdfService.addAnnotationObject(current.getId(), SempicOnto.depicts.getURI(), rdfPhoto.getInstance());
+            FaceMessageService.setMessage("Annotation ajoutée avec succès.");
         } else if (annotationType != null) {
             rdfService.createAnonInstance(current.getId(), annotationType);
+            FaceMessageService.setMessage("Annotation ajoutée avec succès.");
         } else {
             return "failure";
         }

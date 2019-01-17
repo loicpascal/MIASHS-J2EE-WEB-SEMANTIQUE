@@ -13,9 +13,7 @@
             
             <h1 class="display-4">Liste des utilisateurs</h1>
             
-            <c:if test="#{not empty facesContext.messageList}">
-                <div class="alert alert-secondary"><h:messages globalOnly="true"/></div>
-            </c:if>
+            <h:messages globalOnly="true" class="alert alert-success" rendered="#{facesContext != null and not empty facesContext.messageList}" style="list-style: none;"/>
 
             <h:dataTable id="users" value="#{userController.dataModel}" var="user" class="table">
 

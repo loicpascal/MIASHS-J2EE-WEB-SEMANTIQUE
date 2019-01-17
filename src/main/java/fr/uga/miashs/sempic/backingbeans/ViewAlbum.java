@@ -9,12 +9,11 @@ import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.qualifiers.SelectedAlbum;
+import fr.uga.miashs.sempic.services.FaceMessageService;
 import fr.uga.miashs.sempic.services.PhotoFacade;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,7 +40,7 @@ public class ViewAlbum implements Serializable {
         try {
             return service.findAll(current);
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cannot retrieve the photos",ex.getMessage()));
+            FaceMessageService.setMessage("Cannot retrieve the photos : " + ex.getMessage());
         }
         return Collections.emptyList();
     }

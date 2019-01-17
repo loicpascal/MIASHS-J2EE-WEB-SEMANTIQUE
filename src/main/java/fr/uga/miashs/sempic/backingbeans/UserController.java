@@ -7,20 +7,11 @@ package fr.uga.miashs.sempic.backingbeans;
 
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.SempicModelUniqueException;
-import fr.uga.miashs.sempic.entities.Album;
-import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.services.SempicUserFacade;
 import fr.uga.miashs.sempic.entities.SempicUser;
+import fr.uga.miashs.sempic.services.FaceMessageService;
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.view.ViewScoped;
@@ -83,11 +74,11 @@ public class UserController implements Serializable {
             userService.create(current);
         } 
         catch (SempicModelUniqueException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("un utilisateur avec cette adresse mail existe déjà"));
+            FaceMessageService.setMessage("Un utilisateur avec cette adresse mail existe déjà");
             return "failure";
         }
         catch (SempicModelException ex) {
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
         
@@ -103,9 +94,9 @@ public class UserController implements Serializable {
         SempicUser user = userService.read(id);
         try {
             userService.deleteId(user.getId());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Utilisateur supprimé avec succès."));
+            FaceMessageService.setMessage("Utilisateur supprimé avec succès.");
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
         

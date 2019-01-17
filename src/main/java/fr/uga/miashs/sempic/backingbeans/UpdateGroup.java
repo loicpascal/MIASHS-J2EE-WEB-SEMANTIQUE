@@ -9,6 +9,7 @@ import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.SempicGroup;
 import fr.uga.miashs.sempic.entities.SempicUser;
 import fr.uga.miashs.sempic.qualifiers.SelectedGroup;
+import fr.uga.miashs.sempic.services.FaceMessageService;
 import fr.uga.miashs.sempic.services.GroupFacade;
 import fr.uga.miashs.sempic.services.SempicUserFacade;
 import java.io.Serializable;
@@ -70,15 +71,15 @@ public class UpdateGroup implements Serializable {
     public String delete() {
         try {
             if (current.getMembers().size() > 1) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Le groupe ne peut être supprimé car il contient des utilisateurs."));
+                FaceMessageService.setMessage("Le groupe ne peut être supprimé car il contient des utilisateurs.");
                 return "failure";
             }
 
             service.delete(current);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Groupe supprimé avec succès."));
+            FaceMessageService.setMessage("Groupe supprimé avec succès.");
             return "success";
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
     }

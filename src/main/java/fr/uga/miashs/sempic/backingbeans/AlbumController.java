@@ -12,14 +12,13 @@ import fr.uga.miashs.sempic.qualifiers.SelectedUser;
 import fr.uga.miashs.sempic.entities.SempicUser;
 import fr.uga.miashs.sempic.entities.SempicUserType;
 import fr.uga.miashs.sempic.services.AlbumFacade;
+import fr.uga.miashs.sempic.services.FaceMessageService;
 import fr.uga.miashs.sempic.services.PhotoFacade;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.view.ViewScoped;
@@ -64,7 +63,7 @@ public class AlbumController implements Serializable {
         try {
             return photoService.findAll(current);
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cannot retrieve the photos",ex.getMessage()));
+            FaceMessageService.setMessage("Cannot retrieve the photos : " + ex.getMessage());
         }
         return Collections.emptyList();
     }
@@ -78,7 +77,7 @@ public class AlbumController implements Serializable {
         try {
             return photoService.findAll(album);
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cannot retrieve the photos",ex.getMessage()));
+            FaceMessageService.setMessage("Cannot retrieve the photos : " + ex.getMessage());
         }
         return Collections.emptyList();
     }
@@ -94,9 +93,9 @@ public class AlbumController implements Serializable {
     public String create() {
         try {
             albumService.create(current);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Album créé avec succès."));
+            FaceMessageService.setMessage("Album créé avec succès.");
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
         
@@ -118,9 +117,9 @@ public class AlbumController implements Serializable {
             }
       
             albumService.delete(current);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Album supprimé avec succès."));
+            FaceMessageService.setMessage("Album supprimé avec succès.");
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
         
@@ -144,9 +143,9 @@ public class AlbumController implements Serializable {
             }
             
             albumService.deleteId(album.getId());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Album supprimé avec succès."));
+            FaceMessageService.setMessage("Album supprimé avec succès.");
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
         

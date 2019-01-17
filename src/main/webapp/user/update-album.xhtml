@@ -3,20 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     
     <ui:composition template="/layout.xhtml">
         <ui:define name="title">Album "<h:outputText value="#{updateAlbum.current.title}"/>"</ui:define>
         
         <ui:define name="content">
-            <h:link value="&lt; Retour à la liste" outcome="/user/list-albums.xhtml" class="btn btn-link"/>
+            <h:link value="&lt; Retour à la liste" outcome="/user/list-albums.xhtml" class="btn btn-outline-primary"/>
 
             <h1 class="display-4">Album "<h:outputText value="#{updateAlbum.current.title}"/>"</h1>
             
-            <c:if test="#{not empty facesContext.messageList}">
-                <div class="alert alert-secondary"><h:messages globalOnly="true"/></div>
-            </c:if>
+            <h:messages globalOnly="true" class="alert alert-success" rendered="#{facesContext != null and not empty facesContext.messageList}" style="list-style: none;"/>
 
             <h:form>
                 <div class="form-group">

@@ -9,22 +9,19 @@ import fr.uga.miashs.sempic.qualifiers.SelectedAlbum;
 import fr.uga.miashs.sempic.SempicModelException;
 import fr.uga.miashs.sempic.entities.Album;
 import fr.uga.miashs.sempic.entities.Photo;
-import fr.uga.miashs.sempic.entities.RdfPhoto;
 import fr.uga.miashs.sempic.entities.SempicUser;
 import fr.uga.miashs.sempic.qualifiers.LoggedUser;
+import fr.uga.miashs.sempic.services.FaceMessageService;
 import fr.uga.miashs.sempic.services.PhotoFacade;
 import fr.uga.miashs.sempic.services.SempicRDFService;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-import org.apache.jena.rdf.model.Resource;
 
 /**
  *
@@ -77,7 +74,7 @@ public class PhotoController implements Serializable {
 
     public String create() {
         if (selectedAlbum==null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("parameter albumId must be given"));
+            FaceMessageService.setMessage("parameter albumId must be given.");
             return "failure";
         }
         boolean partiallyFailed=false;
@@ -88,11 +85,9 @@ public class PhotoController implements Serializable {
                 service.create(current,p.getInputStream());
                 rdfService.createPhoto(current.getId(), selectedAlbum.getId(), loggedUser.getId());
             } catch (SempicModelException ex) {
-               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
-               partiallyFailed=true;
+                FaceMessageService.setMessage(ex.getMessage());
             } catch (IOException ex) {
-                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
-                 partiallyFailed=true;
+                FaceMessageService.setMessage(ex.getMessage());
             }
         }
         if (partiallyFailed) {
@@ -110,9 +105,9 @@ public class PhotoController implements Serializable {
     public String delete() {
         try {
             service.delete(current);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo supprimée avec succès"));
+            FaceMessageService.setMessage("Photo supprimée avec succès.");
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
         return "success";
@@ -127,9 +122,9 @@ public class PhotoController implements Serializable {
         current = service.read(id);
         try {
             service.deleteId(id);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo supprimée avec succès"));
+            FaceMessageService.setMessage("Photo supprimée avec succès.");
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
         return "success";

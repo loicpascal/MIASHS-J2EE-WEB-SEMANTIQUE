@@ -26,9 +26,7 @@
                 </ui:include>
             </h:form>
             
-            <c:if test="#{not empty facesContext.messageList}">
-                <div class="alert alert-secondary"><h:messages globalOnly="true"/></div>
-            </c:if>
+            <h:messages globalOnly="true" class="alert alert-success" rendered="#{facesContext != null and not empty facesContext.messageList}" style="list-style: none;"/>
 
             <h:form id="addPhoto" enctype="multipart/form-data" class="was-validated">
                 <div class="custom-file">

@@ -14,10 +14,8 @@
             <h:link value="&lt; Retour à la liste" outcome="/user/list-groups.xhtml" class="btn btn-outline-primary"/>
 
             <h1 class="display-4">Groupe "<h:outputText value="#{updateGroup.current.name}"/>"</h1>
-
-            <c:if test="#{not empty facesContext.messageList}">
-                <div class="alert alert-secondary"><h:messages globalOnly="true"/></div>
-            </c:if>
+            
+            <h:messages globalOnly="true" class="alert alert-success" rendered="#{facesContext != null and not empty facesContext.messageList}" style="list-style: none;"/>
             
             <h:form>
                 <div class="form-group">

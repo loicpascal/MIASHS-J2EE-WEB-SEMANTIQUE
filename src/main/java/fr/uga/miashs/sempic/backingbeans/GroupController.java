@@ -7,19 +7,15 @@ package fr.uga.miashs.sempic.backingbeans;
 
 import fr.uga.miashs.sempic.services.GroupFacade;
 import fr.uga.miashs.sempic.SempicModelException;
-import fr.uga.miashs.sempic.entities.Photo;
 import fr.uga.miashs.sempic.qualifiers.SelectedUser;
 import fr.uga.miashs.sempic.services.SempicUserFacade;
 import fr.uga.miashs.sempic.entities.SempicGroup;
 import fr.uga.miashs.sempic.entities.SempicUser;
 import fr.uga.miashs.sempic.entities.SempicUserType;
-import fr.uga.miashs.sempic.qualifiers.SelectedGroup;
+import fr.uga.miashs.sempic.services.FaceMessageService;
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.view.ViewScoped;
@@ -74,9 +70,9 @@ public class GroupController implements Serializable {
     public String create() {
         try {
             service.create(current);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Groupe créé avec succès"));
+            FaceMessageService.setMessage("Groupe créé avec succès");
         } catch (SempicModelException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+            FaceMessageService.setMessage(ex.getMessage());
             return "failure";
         }
         
